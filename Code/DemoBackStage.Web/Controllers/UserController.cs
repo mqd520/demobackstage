@@ -5,11 +5,14 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 
+using Common;
 using ValidationCodeHelper;
 
 using DemoBackStage.Web.Def;
 using DemoBackStage.Web.App_Start;
 using DemoBackStage.Web.Common;
+using DemoBackStage.Web.Models.User;
+using DemoBackStage.Web.Validator;
 
 namespace DemoBackStage.Web.Controllers
 {
@@ -42,6 +45,54 @@ namespace DemoBackStage.Web.Controllers
             Response.BinaryWrite(ms.GetBuffer());
 
             return new EmptyResult();
+        }
+
+        [HttpPost]
+        public ActionResult Login(UserLoginInfoModel model)
+        {
+            bool b = false;
+            string msg = "";
+
+            try
+            {
+                var v = new UserLoginInfoValidator();
+                var result = v.Validate(model);
+                if (result.IsValid)
+                {
+                    //HttpCookie hc = Request.Cookies[Consts.ValicationCode];
+                    //if (hc != null)
+                    //{
+                    //    RedisServiceConfig.CodeRedisService.GetItem("");
+                    //}
+                    //else
+                    //{
+
+                    //}
+                    throw new Exception("未知Exception");
+                }
+                else
+                {
+                    msg = result.Errors.ConcatElement(" ");
+                }
+            }
+            catch (Exception e)
+            {
+                string param = model.ToString();
+                CommonLogger.WriteLog(
+                    ELogCategory.Error,
+                    string.Format("UserController.Login Exception: {0}{1}{2}", e.Message, Environment.NewLine, param),
+                    e
+                );
+
+                msg = "登录失败, 系统异常";
+            }
+
+            return new JsonResult
+            {
+                ContentType = "application/json",
+                Data = new { Success = b, Msg = msg },
+                JsonRequestBehavior = JsonRequestBehavior.DenyGet
+            };
         }
     }
 }

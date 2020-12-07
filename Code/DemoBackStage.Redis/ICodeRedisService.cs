@@ -10,7 +10,7 @@ using DemoBackStage.Redis._00_Def;
 
 namespace DemoBackStage.Redis
 {
-    public interface ICodeRedisService : IRedisService<string>
+    public interface ICodeRedisService : IItemRedisService<string>
     {
         /// <summary>
         /// Validate

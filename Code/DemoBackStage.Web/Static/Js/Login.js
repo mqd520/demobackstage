@@ -6,7 +6,8 @@
         $("#btnLogin").click(onLoginClick);
         $("#btnReset").click(onResetClick);
 
-        mini.get("")
+        mini.get("txtUserName").onvalidation = onUserNameValidation;
+        mini.get("txtPwd").onvalidation = onPwdValidation;
 
         var loginWindow = mini.get("loginWindow");
         loginWindow.show();
@@ -20,10 +21,14 @@
         form.validate();
         if (form.isValid() == false) return;
 
-        loginWindow.hide();
-        mini.loading("登录成功，马上转到系统...", "登录成功");
+        mini.mask({
+            el: document.body,
+            cls: 'mini-mask-loading',
+            html: '登录中, 请稍后...'
+        });
+
         setTimeout(function () {
-            window.location = "../outlooktree/outlooktree.html";
+            mini.unmask();
         }, 1500);
     }
 

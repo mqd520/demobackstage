@@ -21,19 +21,19 @@
             <tr>
                 <td style="width: 60px;"><label for="txtUserName$text">帐号：</label></td>
                 <td>
-                    <input id="txtUserName" name="txtUserName" maxlength="20" onvalidation="onUserNameValidation" class="mini-textbox" required="true" style="width:150px;" />
+                    <input id="txtUserName" name="txtUserName" maxlength="20" class="mini-textbox" required="true" requiredErrorText="用户名不能为空" style="width:150px;" />
                 </td>
             </tr>
             <tr>
                 <td style="width: 60px;"><label for="txtPwd$text">密码：</label></td>
                 <td>
-                    <input id="txtPwd" name="txtPwd" maxlength="20" onvalidation="onPwdValidation" class="mini-password" requiredErrorText="密码不能为空" required="true" style="width:150px;" />
+                    <input id="txtPwd" name="txtPwd" maxlength="20" class="mini-password" requiredErrorText="密码不能为空" required="true" style="width:150px;" />
                 </td>
             </tr>
             <tr>
                 <td style="width: 60px;"><label for="txtPwd$text">密码：</label></td>
                 <td align="center">
-                    <input id="txtCode" name="txtCode" maxlength="4" onvalidation="onCodeValidation" class="mini-textbox" requiredErrorText="验证码不能为空" required="true" style="width:60px;" />
+                    <input id="txtCode" name="txtCode" maxlength="4" class="mini-textbox" requiredErrorText="验证码不能为空" required="true" style="width:60px;" />
                     <img id="imgCode" class="imgCode" alt="点击刷新验证码" title="点击刷新验证码" />
                 </td>
             </tr>
