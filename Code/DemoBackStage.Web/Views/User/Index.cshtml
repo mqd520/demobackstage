@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    tr {
+        height: 30px;
+    }
+
+    .imgCode{
+        height: 24px;
+        width: 100px;
+    }
+</style>
+
+<div id="loginWindow" class="mini-window" title="用户登录" style="width: 350px; height:200px;"
+     showModal="true" showCloseButton="false">
+    <div id="loginForm" style="padding: 15px; padding-top: 10px;">
+        <table>
+            <tr>
+                <td style="width: 60px;"><label for="txtUserName$text">帐号：</label></td>
+                <td>
+                    <input id="txtUserName" name="txtUserName" maxlength="20" onvalidation="onUserNameValidation" class="mini-textbox" required="true" style="width:150px;" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 60px;"><label for="txtPwd$text">密码：</label></td>
+                <td>
+                    <input id="txtPwd" name="txtPwd" maxlength="20" onvalidation="onPwdValidation" class="mini-password" requiredErrorText="密码不能为空" required="true" style="width:150px;" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 60px;"><label for="txtPwd$text">密码：</label></td>
+                <td align="center">
+                    <input id="txtCode" name="txtCode" maxlength="4" onvalidation="onCodeValidation" class="mini-textbox" requiredErrorText="验证码不能为空" required="true" style="width:60px;" />
+                    <img id="imgCode" class="imgCode" alt="点击刷新验证码" title="点击刷新验证码" />
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;&nbsp;</td>
+                <td style="padding-top: 5px;">
+                    <a id="btnLogin" class="mini-button" style="width:60px;">登录</a>
+                    <a id="btnReset" class="mini-button" style="width:60px;">重置</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="~/Static/Js/RegTool.js"></script>
+<script type="text/javascript" src="~/Static/Js/Login.js"></script>

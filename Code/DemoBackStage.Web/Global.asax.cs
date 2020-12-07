@@ -21,6 +21,9 @@ namespace DemoBackStage.Web
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             AutofacConfig.Register();
+            NewtonsoftConfig.Init();
+            RedisUtilsConfig.Init();
+            RedisServiceConfig.Init();
         }
 
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)

@@ -15,7 +15,7 @@ namespace DemoBackStage.Web.App_Start
     {
         public static void Register()
         {
-            AutoFacHelper.Init(new string[] { "DemoBackStage.IRepository", "DemoBackStage.Repository", "DemoBackStage.Web.IService", "DemoBackStage.Web.Service" });
+            AutoFacHelper.Init(new string[] { "DemoBackStage.IRepository", "DemoBackStage.Repository", "DemoBackStage.Web.IService", "DemoBackStage.Web.Service", "DemoBackStage.Redis" });
             DependencyResolver.SetResolver(new AutofacDependencyResolver(AutoFacHelper.Container));
         }
     }
