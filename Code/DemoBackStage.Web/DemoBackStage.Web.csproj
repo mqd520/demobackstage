@@ -2635,9 +2635,11 @@
     <Compile Include="App_Start\RedisServiceConfig.cs" />
     <Compile Include="App_Start\RedisUtilsConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\MyConfig.cs" />
     <Compile Include="Common\MySessionSerializer.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Def\Consts.cs" />
     <Compile Include="Filter\MyCustomErrorFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2673,6 +2675,7 @@
     <Content Include="Static\Scripts\res\fonts\weather-icons\fonts\weathericons-regular-webfont.ttf" />
     <Content Include="Static\Scripts\res\fonts\weather-icons\fonts\weathericons-regular-webfont.woff" />
     <Content Include="Static\Scripts\res\third-party\webuploader\README.md" />
+    <Content Include="Views\Home\Index1.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

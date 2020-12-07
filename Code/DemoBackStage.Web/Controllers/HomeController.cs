@@ -13,5 +13,12 @@ namespace DemoBackStage.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Index1()
+        {
+            Session["key1"] = Guid.NewGuid().ToString();
+
+            return View();
+        }
     }
 }

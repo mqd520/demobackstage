@@ -7,7 +7,9 @@ using System.IO;
 
 using ValidationCodeHelper;
 
+using DemoBackStage.Web.Def;
 using DemoBackStage.Web.App_Start;
+using DemoBackStage.Web.Common;
 
 namespace DemoBackStage.Web.Controllers
 {
@@ -25,9 +27,13 @@ namespace DemoBackStage.Web.Controllers
             MemoryStream ms = new MemoryStream();
             code.CreateImage(ms);
 
-            HttpCookie hc = new HttpCookie("ValidationCode");
-            hc.Value = Guid.NewGuid().ToString().Replace("-", "");
-            hc.Expires = DateTime.Now.AddMinutes(3);
+            HttpCookie hc = Request.Cookies[Consts.ValicationCode];
+            if (hc == null)
+            {
+                hc = new HttpCookie(Consts.ValicationCode);
+                hc.Value = Guid.NewGuid().ToString().Replace("-", "");
+            }
+            hc.Expires = DateTime.Now.AddSeconds(MyConfig.ValidationCodeTimeout);
             Response.Cookies.Add(hc);
 
             RedisServiceConfig.CodeRedisService.Save(code.ValidationCode, hc.Value);

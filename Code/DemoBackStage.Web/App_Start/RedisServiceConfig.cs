@@ -6,6 +6,8 @@ using System.Web;
 using AutoFacUtils;
 using DemoBackStage.Redis;
 
+using DemoBackStage.Web.Common;
+
 namespace DemoBackStage.Web.App_Start
 {
     public class RedisServiceConfig
@@ -36,9 +38,9 @@ namespace DemoBackStage.Web.App_Start
 
         public static void Init()
         {
-            CodeRedisService.Db = 10;
-            CodeRedisService.ExpireTs = new TimeSpan(0, 3, 0);
-            CodeRedisService.Prefix = "DemoBackStage.Web.Code_";
+            CodeRedisService.Db = MyConfig.ValidationCode_Db;
+            CodeRedisService.ExpireTs = new TimeSpan(0, 0, MyConfig.ValidationCodeTimeout);
+            CodeRedisService.Prefix = MyConfig.ValidationCodePrefix;
         }
     }
 }
