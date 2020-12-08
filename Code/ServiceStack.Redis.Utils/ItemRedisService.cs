@@ -15,7 +15,7 @@ namespace ServiceStack.Redis.Utils
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public T GetItem(string key)
+        public virtual T GetItem(string key)
         {
             T t = default(T);
 
@@ -38,6 +38,16 @@ namespace ServiceStack.Redis.Utils
             }
 
             return t;
+        }
+
+        /// <summary>
+        /// Get Item
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public virtual T GetItemByPrefix(string key)
+        {
+            return GetItem(GetKey(key));
         }
 
         /// <summary>
@@ -75,6 +85,47 @@ namespace ServiceStack.Redis.Utils
             }
 
             return b;
+        }
+
+        /// <summary>
+        /// Set Item
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public virtual bool SetItemByPrefix(string key, T item)
+        {
+            return SetItem(GetKey(key), item);
+        }
+
+        /// <summary>
+        /// Get All Items
+        /// </summary>
+        /// <returns></returns>
+        public virtual IList<T> GetAllItems()
+        {
+            IList<T> ls = new List<T>();
+
+            try
+            {
+                var keys = GetAllKeys();
+                using (var client = GetReadOnlyClient())
+                {
+                    var dict = client.GetAll<T>(keys);
+                    ls = dict.Select(x => x.Value).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                ConsoleHelper.WriteLine(
+                    ELogCategory.Error,
+                    string.Format("ItemRedisService<{0}>.GetAllItems Exception: {1}", GetTypeName(), e.Message),
+                    true,
+                    e: e
+                );
+            }
+
+            return ls;
         }
     }
 }

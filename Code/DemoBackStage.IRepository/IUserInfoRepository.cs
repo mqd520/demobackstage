@@ -10,6 +10,11 @@ namespace DemoBackStage.IRepository
 {
     public interface IUserInfoRepository : IRepository<UserInfoEntity>
     {
-
+        /// <summary>
+        /// Query By UserName
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        UserInfoEntity QueryByUserName(string username);
     }
 }

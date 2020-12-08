@@ -20,10 +20,12 @@ namespace DemoBackStage.Web
 
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             AutofacConfig.Register();
             NewtonsoftConfig.Init();
             RedisUtilsConfig.Init();
             RedisServiceConfig.Init();
+            DbConfig.Init();
         }
 
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)

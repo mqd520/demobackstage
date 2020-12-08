@@ -13,19 +13,18 @@ namespace DemoBackStage.Redis
     public interface ICodeRedisService : IItemRedisService<string>
     {
         /// <summary>
-        /// Validate
+        /// Get Code
         /// </summary>
-        /// <param name="code"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        ECode Validate(string code, string Id);
+        string GetCode(string Id);
 
         /// <summary>
-        /// Save
+        /// Reset Code
         /// </summary>
-        /// <param name="code"></param>
         /// <param name="Id"></param>
+        /// <param name="code"></param>
         /// <returns></returns>
-        bool Save(string code, string Id);
+        bool ResetCode(string Id, string code);
     }
 }

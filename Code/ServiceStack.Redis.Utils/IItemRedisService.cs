@@ -16,10 +16,11 @@ namespace ServiceStack.Redis.Utils
         T GetItem(string key);
 
         /// <summary>
-        /// Get All Items
+        /// Get Item
         /// </summary>
+        /// <param name="key"></param>
         /// <returns></returns>
-        IList<T> GetAllItems();
+        T GetItemByPrefix(string key);
 
         /// <summary>
         /// Set Item
@@ -28,5 +29,19 @@ namespace ServiceStack.Redis.Utils
         /// <param name="item"></param>
         /// <returns></returns>
         bool SetItem(string key, T item);
+
+        /// <summary>
+        /// Set Item
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        bool SetItemByPrefix(string key, T item);
+
+        /// <summary>
+        /// Get All Items
+        /// </summary>
+        /// <returns></returns>
+        IList<T> GetAllItems();
     }
 }

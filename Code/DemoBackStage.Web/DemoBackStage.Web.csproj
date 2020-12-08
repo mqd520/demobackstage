@@ -172,6 +172,7 @@
     <Content Include="Static\Js\Login.js" />
     <Content Include="Static\Js\RegTool.js" />
     <Content Include="Static\Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Static\Scripts\md5.js" />
     <Content Include="Static\Scripts\MiniUI\boot.js" />
     <Content Include="Static\Scripts\MiniUI\miniui\locale\en_US.js" />
     <Content Include="Static\Scripts\MiniUI\miniui\locale\zh_CN.js" />
@@ -2634,6 +2635,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutofacConfig.cs" />
+    <Compile Include="App_Start\DbConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NewtonsoftConfig.cs" />
     <Compile Include="App_Start\RedisServiceConfig.cs" />
@@ -2641,9 +2643,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\MyConfig.cs" />
     <Compile Include="Common\MySessionSerializer.cs" />
+    <Compile Include="Common\RedisSessionLog.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Def\Consts.cs" />
+    <Compile Include="Filter\LoginAuthorizeFilterAttribute.cs" />
     <Compile Include="Filter\MyCustomErrorFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2682,6 +2686,8 @@
     <Content Include="Static\Scripts\res\fonts\weather-icons\fonts\weathericons-regular-webfont.woff" />
     <Content Include="Static\Scripts\res\third-party\webuploader\README.md" />
     <Content Include="Views\Home\Index1.cshtml" />
+    <Content Include="Views\Home\Index2.cshtml" />
+    <Content Include="Views\Home\Index3.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

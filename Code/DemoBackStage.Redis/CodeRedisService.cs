@@ -13,43 +13,24 @@ namespace DemoBackStage.Redis
     public class CodeRedisService : ItemRedisService<string>, ICodeRedisService
     {
         /// <summary>
-        /// Validate
+        /// Get Code
         /// </summary>
-        /// <param name="code"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ECode Validate(string code, string Id)
+        public string GetCode(string Id)
         {
-            string key = string.Format("{0}{1}", Prefix, Id);
-            string code1 = GetItem(key);
-            if (string.IsNullOrEmpty(code1))
-            {
-                return ECode.Expire;
-            }
-            else
-            {
-                if (code1.Equals(code, StringComparison.OrdinalIgnoreCase))
-                {
-                    return ECode.Success;
-                }
-                else
-                {
-                    return ECode.Error;
-                }
-            }
+            return GetItemByPrefix(Id);
         }
 
         /// <summary>
-        /// Save
+        /// Reset Code
         /// </summary>
-        /// <param name="code"></param>
         /// <param name="Id"></param>
+        /// <param name="code"></param>
         /// <returns></returns>
-        public bool Save(string code, string Id)
+        public bool ResetCode(string Id, string code)
         {
-            string key = string.Format("{0}{1}", Prefix, Id);
-
-            return SetItem(key, code);
+            return SetItemByPrefix(Id, code);
         }
     }
 }

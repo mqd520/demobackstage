@@ -31,7 +31,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="01 Config\MyConfig.cs" />
+    <Compile Include="02 Common\MyCommonTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="UserService.cs" />
@@ -57,6 +61,10 @@
       <Project>{d2281c8b-69ea-4dde-8172-cfaa0edac678}</Project>
       <Name>DemoBackStage.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DemoBackStage.Def\DemoBackStage.Def.csproj">
+      <Project>{182e9698-778f-498c-9cd3-16ba448b9b72}</Project>
+      <Name>DemoBackStage.Def</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DemoBackStage.Entity\DemoBackStage.Entity.csproj">
       <Project>{585dc6f9-356a-4821-9f0c-8742094dcfab}</Project>
       <Name>DemoBackStage.Entity</Name>
@@ -65,6 +73,10 @@
       <Project>{4690972c-f8b4-4b63-a7a6-3adeea4e4da3}</Project>
       <Name>DemoBackStage.IRepository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DemoBackStage.Redis\DemoBackStage.Redis.csproj">
+      <Project>{8f3220e1-f3f1-4905-8de8-2d3ab48022a9}</Project>
+      <Name>DemoBackStage.Redis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DemoBackStage.View\DemoBackStage.View.csproj">
       <Project>{1480d461-f613-44c6-8b88-0c3e0f7d3bd3}</Project>
       <Name>DemoBackStage.View</Name>
@@ -72,6 +84,10 @@
     <ProjectReference Include="..\DemoBackStage.Web.IService\DemoBackStage.Web.IService.csproj">
       <Project>{11f1e666-26d4-44fd-94e2-246fad73e232}</Project>
       <Name>DemoBackStage.Web.IService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceStack.Redis.Utils\ServiceStack.Redis.Utils.csproj">
+      <Project>{d09d4704-7c1e-42d6-b422-75aacb4e9c54}</Project>
+      <Name>ServiceStack.Redis.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

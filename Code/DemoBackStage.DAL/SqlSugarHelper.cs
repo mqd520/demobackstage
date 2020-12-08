@@ -74,7 +74,7 @@ namespace DemoBackStage.DAL
         /// <returns></returns>
         public static SqlSugarClient GetDb()
         {
-            return GetDb("northwind");
+            return GetDb("demobackstage");
         }
 
         /// <summary>

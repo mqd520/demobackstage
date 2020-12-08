@@ -49,6 +49,10 @@
       <Project>{21aeecdb-3f06-4e66-9322-ac796148a0d2}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DemoBackStage.Def\DemoBackStage.Def.csproj">
+      <Project>{182e9698-778f-498c-9cd3-16ba448b9b72}</Project>
+      <Name>DemoBackStage.Def</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DemoBackStage.Entity\DemoBackStage.Entity.csproj">
       <Project>{585dc6f9-356a-4821-9f0c-8742094dcfab}</Project>
       <Name>DemoBackStage.Entity</Name>

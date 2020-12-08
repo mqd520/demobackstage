@@ -13,6 +13,7 @@ namespace DemoBackStage.Web.App_Start
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new MyCustomErrorFilterAttribute());
+            filters.Add(new LoginAuthorizeFilterAttribute());
         }
     }
 }

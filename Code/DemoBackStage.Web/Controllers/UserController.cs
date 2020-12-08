@@ -6,7 +6,10 @@ using System.Web.Mvc;
 using System.IO;
 
 using Common;
+using AutoFacUtils;
 using ValidationCodeHelper;
+using DemoBackStage.Def;
+using DemoBackStage.Web.IService;
 
 using DemoBackStage.Web.Def;
 using DemoBackStage.Web.App_Start;
@@ -16,8 +19,15 @@ using DemoBackStage.Web.Validator;
 
 namespace DemoBackStage.Web.Controllers
 {
+    [AllowAnonymous]
     public class UserController : Controller
     {
+        private IUserService GetUserService()
+        {
+            return AutoFacHelper.Get<IUserService>();
+        }
+
+
         // GET: User
         public ActionResult Index()
         {
@@ -27,8 +37,20 @@ namespace DemoBackStage.Web.Controllers
         public ActionResult Code()
         {
             var code = new DrawValidationCode();
+            code.FontMinSize = 24;
+            code.FontMaxSize = 30;
+            code.GaussianDeviation = 0;
+            code.BezierCount = 0;
+            code.IsPixel = false;
+            code.IsTwist = false;
+            code.RotationAngle = 0;
+            code.BrightnessValue = 0;
+            code.LineCount = 0;
+
             MemoryStream ms = new MemoryStream();
             code.CreateImage(ms);
+            Response.ContentType = "image/gif";
+            Response.BinaryWrite(ms.GetBuffer());
 
             HttpCookie hc = Request.Cookies[Consts.ValicationCode];
             if (hc == null)
@@ -39,10 +61,7 @@ namespace DemoBackStage.Web.Controllers
             hc.Expires = DateTime.Now.AddSeconds(MyConfig.ValidationCodeTimeout);
             Response.Cookies.Add(hc);
 
-            RedisServiceConfig.CodeRedisService.Save(code.ValidationCode, hc.Value);
-
-            Response.ContentType = "image/gif";
-            Response.BinaryWrite(ms.GetBuffer());
+            RedisServiceConfig.CodeRedisService.ResetCode(hc.Value, code.ValidationCode);
 
             return new EmptyResult();
         }
@@ -50,6 +69,13 @@ namespace DemoBackStage.Web.Controllers
         [HttpPost]
         public ActionResult Login(UserLoginInfoModel model)
         {
+            var userService = GetUserService();
+            if (userService.IsLogin())
+            {
+                return new RedirectResult("/Home");
+            }
+
+
             bool b = false;
             string msg = "";
 
@@ -59,19 +85,47 @@ namespace DemoBackStage.Web.Controllers
                 var result = v.Validate(model);
                 if (result.IsValid)
                 {
-                    //HttpCookie hc = Request.Cookies[Consts.ValicationCode];
-                    //if (hc != null)
-                    //{
-                    //    RedisServiceConfig.CodeRedisService.GetItem("");
-                    //}
-                    //else
-                    //{
+                    EUserLoginResult result1 = EUserLoginResult.Fail;
 
-                    //}
-                    throw new Exception("未知Exception");
+                    HttpCookie hc = Request.Cookies[Consts.ValicationCode];
+                    if (hc != null)
+                    {
+                        var code = RedisServiceConfig.CodeRedisService.GetItemByPrefix(hc.Value);
+                        if (!string.IsNullOrEmpty(code))
+                        {
+                            if (code.Equals(model.Code, StringComparison.OrdinalIgnoreCase))
+                            {
+                                result1 = userService.Login(model.UserName, model.Pwd);
+                            }
+                            else
+                            {
+                                result1 = EUserLoginResult.CodeError;
+                            }
+                        }
+                        else
+                        {
+                            result1 = EUserLoginResult.CodeInvalid;
+                        }
+                    }
+                    else
+                    {
+                        result1 = EUserLoginResult.CodeInvalid;
+                    }
+
+                    if (result1 == EUserLoginResult.Success)
+                    {
+                        b = true;
+                        msg = "";
+                    }
+                    else
+                    {
+                        b = false;
+                        msg = EnumTool.GetDescription<EUserLoginResult, int>(result1);
+                    }
                 }
                 else
                 {
+                    b = false;
                     msg = result.Errors.ConcatElement(" ");
                 }
             }
@@ -84,7 +138,15 @@ namespace DemoBackStage.Web.Controllers
                     e
                 );
 
-                msg = "登录失败, 系统异常";
+                b = false;
+                msg = "登录失败, 系统异常!";
+            }
+
+            if (b)
+            {
+                HttpCookie hc = new HttpCookie(Consts.ValicationCode);
+                hc.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(hc);
             }
 
             return new JsonResult

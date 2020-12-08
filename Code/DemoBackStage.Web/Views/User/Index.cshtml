@@ -5,41 +5,46 @@
 
 <style>
     tr {
-        height: 30px;
+        height: 35px;
     }
 
-    .imgCode{
-        height: 24px;
+    .imgCode {
+        height: 28px;
         width: 100px;
+        border: 1px solid #aed0ea;
     }
 </style>
 
-<div id="loginWindow" class="mini-window" title="用户登录" style="width: 350px; height:200px;"
-     showModal="true" showCloseButton="false">
+<div id="loginWindow" class="mini-window" title="用户登录" style="width: 350px; height: 240px;"
+     showModal="true" showCloseButton="false" allowDrag="false">
     <div id="loginForm" style="padding: 15px; padding-top: 10px;">
         <table>
             <tr>
-                <td style="width: 60px;"><label for="txtUserName$text">帐号：</label></td>
+                <td style="width: 60px;" align="right"><label for="txtUserName$text">帐号：</label></td>
                 <td>
-                    <input id="txtUserName" name="txtUserName" maxlength="20" class="mini-textbox" required="true" requiredErrorText="用户名不能为空" style="width:150px;" />
+                    <input id="txtUserName" name="txtUserName" maxlength="20" class="mini-textbox" required="true" requiredErrorText="用户名不能为空" style="width:150px;" value="AAtest001" />
                 </td>
             </tr>
             <tr>
-                <td style="width: 60px;"><label for="txtPwd$text">密码：</label></td>
+                <td style="width: 60px;" align="right"><label for="txtPwd$text">密码：</label></td>
                 <td>
-                    <input id="txtPwd" name="txtPwd" maxlength="20" class="mini-password" requiredErrorText="密码不能为空" required="true" style="width:150px;" />
+                    <input id="txtPwd" name="txtPwd" maxlength="20" class="mini-password" requiredErrorText="密码不能为空" required="true" style="width:150px;" value="a123456" />
                 </td>
             </tr>
             <tr>
-                <td style="width: 60px;"><label for="txtPwd$text">密码：</label></td>
+                <td style="width: 60px;" align="right"><label for="txtCode$text">验证码：</label></td>
                 <td align="center">
-                    <input id="txtCode" name="txtCode" maxlength="4" class="mini-textbox" requiredErrorText="验证码不能为空" required="true" style="width:60px;" />
-                    <img id="imgCode" class="imgCode" alt="点击刷新验证码" title="点击刷新验证码" />
+                    <div style="width: 80px; float: left; height: 30px;">
+                        <input id="txtCode" name="txtCode" maxlength="4" class="mini-textbox" requiredErrorText="验证码不能为空" required="true" style="width:80px;" />
+                    </div>
+                    <div style="width: 100px; float: left; margin-left: 5px; height: 30px;">
+                        <img id="imgCode" class="imgCode" alt="点击刷新验证码" title="点击刷新验证码" />
+                    </div>
                 </td>
             </tr>
             <tr>
                 <td>&nbsp;&nbsp;</td>
-                <td style="padding-top: 5px;">
+                <td style="padding-top: 10px;">
                     <a id="btnLogin" class="mini-button" style="width:60px;">登录</a>
                     <a id="btnReset" class="mini-button" style="width:60px;">重置</a>
                 </td>
@@ -48,6 +53,6 @@
     </div>
 </div>
 
-
+<script type="text/javascript" src="~/Static/Scripts/md5.js"></script>
 <script type="text/javascript" src="~/Static/Js/RegTool.js"></script>
 <script type="text/javascript" src="~/Static/Js/Login.js"></script>

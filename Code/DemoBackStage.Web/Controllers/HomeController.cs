@@ -20,5 +20,17 @@ namespace DemoBackStage.Web.Controllers
 
             return View();
         }
+
+        public ActionResult Index2()
+        {
+            return View();
+        }
+
+        public ActionResult Index3()
+        {
+            string key = Session["key1"] as string;
+
+            return View();
+        }
     }
 }

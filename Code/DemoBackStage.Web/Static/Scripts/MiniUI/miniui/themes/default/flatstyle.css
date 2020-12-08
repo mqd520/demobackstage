@@ -9,9 +9,10 @@
 }
 .mini-mask-background
 {
-    background:#fff;
-    opacity: 0;
-    filter: alpha(opacity=0);    
+	background: black;
+	opacity: 0.3;
+	-moz-opacity: 0.3;
+	filter: alpha(opacity=30);   
     
 }
 

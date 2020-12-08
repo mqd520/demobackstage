@@ -23,7 +23,7 @@ namespace ServiceStack.Redis.Utils
         /// Get Type Name
         /// </summary>
         /// <returns></returns>
-        public string GetTypeName()
+        public virtual string GetTypeName()
         {
             Type t = typeof(T);
 
@@ -34,7 +34,7 @@ namespace ServiceStack.Redis.Utils
         /// Get Client
         /// </summary>
         /// <returns></returns>
-        public IRedisClient GetClient()
+        public virtual IRedisClient GetClient()
         {
             var client = ServiceStackRedisUtils.GetClient();
             if (Db.HasValue)
@@ -49,7 +49,7 @@ namespace ServiceStack.Redis.Utils
         /// Get ReadOnly Client
         /// </summary>
         /// <returns></returns>
-        public IRedisClient GetReadOnlyClient()
+        public virtual IRedisClient GetReadOnlyClient()
         {
             var client = ServiceStackRedisUtils.GetReadOnlyClient();
             if (Db.HasValue)
@@ -61,15 +61,30 @@ namespace ServiceStack.Redis.Utils
         }
 
         /// <summary>
+        /// Get Key
+        /// </summary>
+        /// <returns></returns>
+        public virtual string GetKey(string key)
+        {
+            if (!string.IsNullOrEmpty(Prefix))
+            {
+                return string.Format("{0}{1}", Prefix, key);
+            }
+            else
+            {
+                return key;
+            }
+        }
+
+        /// <summary>
         /// Get All Keys
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<string> GetAllKeys()
+        public virtual IEnumerable<string> GetAllKeys()
         {
             IEnumerable<string> ls = new List<string>();
 
-            string pattern = string.Format("{0}*");
-
+            string pattern = string.Format("{0}*", Prefix);
             try
             {
                 using (var client = GetReadOnlyClient())
@@ -91,10 +106,64 @@ namespace ServiceStack.Redis.Utils
         }
 
         /// <summary>
+        /// Remove Key
+        /// </summary>
+        /// <param name="key"></param>
+        public bool RemoveKey(string key)
+        {
+            try
+            {
+                using (var client = GetClient())
+                {
+                    client.Remove(key);
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                string param = string.Format("key: {0}", key);
+                ConsoleHelper.WriteLine(
+                    ELogCategory.Error,
+                    string.Format("RedisService<{0}>.RemoveKey Exception: {1}{2}{3}", GetTypeName(), e.Message, Environment.NewLine, param),
+                    true,
+                    e: e
+                );
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Remove Keys
+        /// </summary>
+        /// <param name="keys"></param>
+        public void RemoveKeys(IEnumerable<string> keys)
+        {
+            try
+            {
+                using (var client = GetClient())
+                {
+                    client.RemoveAll(keys);
+                }
+            }
+            catch (Exception e)
+            {
+                string param = string.Format("keys: {0}", keys.ConcatElement());
+                ConsoleHelper.WriteLine(
+                    ELogCategory.Error,
+                    string.Format("RedisService<{0}>.RemoveKeys Exception: {1}{2}{3}", GetTypeName(), e.Message, Environment.NewLine, param),
+                    true,
+                    e: e
+                );
+            }
+        }
+
+        /// <summary>
         /// Reset Expire Time
         /// </summary>
         /// <param name="key"></param>
-        public void ResetExpireTime(string key)
+        public virtual void ResetExpireTime(string key)
         {
             if (ExpireTs.HasValue)
             {
@@ -116,36 +185,6 @@ namespace ServiceStack.Redis.Utils
                     );
                 }
             }
-        }
-
-        /// <summary>
-        /// Get All Items
-        /// </summary>
-        /// <returns></returns>
-        public IList<T> GetAllItems()
-        {
-            IList<T> ls = new List<T>();
-
-            try
-            {
-                var keys = GetAllKeys();
-                using (var client = GetReadOnlyClient())
-                {
-                    var dict = client.GetAll<T>(keys);
-                    ls = dict.Select(x => x.Value).ToList();
-                }
-            }
-            catch (Exception e)
-            {
-                ConsoleHelper.WriteLine(
-                    ELogCategory.Error,
-                    string.Format("RedisService<{0}>.GetAllItems Exception: {1}", GetTypeName(), e.Message),
-                    true,
-                    e: e
-                );
-            }
-
-            return ls;
         }
     }
 }

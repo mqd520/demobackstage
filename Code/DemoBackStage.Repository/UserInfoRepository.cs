@@ -14,6 +14,14 @@ namespace DemoBackStage.Repository
     /// </summary>
     public class UserInfoRepository : Repository<UserInfoEntity>, IUserInfoRepository
     {
-
+        /// <summary>
+        /// Query By UserName
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public UserInfoEntity QueryByUserName(string username)
+        {
+            return QuerySingle(x => x.UserName == username);
+        }
     }
 }
