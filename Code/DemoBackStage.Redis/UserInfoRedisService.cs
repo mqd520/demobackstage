@@ -4,29 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
+
 using Common;
 using ServiceStack.Redis.Utils;
 using DemoBackStage.Def;
+
+using DemoBackStage.Redis._02_Common;
 
 namespace DemoBackStage.Redis
 {
     public class UserInfoRedisService : ItemRedisService<UserInfo>, IUserInfoRedisService
     {
-        private static string _redisSessionName;
-
-        public static string RedisSessionName
+        public UserInfoRedisService()
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_redisSessionName))
-                {
-                    _redisSessionName = "DemoBackStage.Web.RedisSession";
-                }
-
-                return _redisSessionName;
-            }
+            Db = MyCommonTool.GetRedisSessionDb();
         }
-
 
         /// <summary>
         /// Get UserInfo
@@ -35,7 +28,7 @@ namespace DemoBackStage.Redis
         /// <returns></returns>
         public UserInfo GetUserInfo(string username)
         {
-            string key = "{" + RedisSessionName + "_" + username + "}_Data";
+            string key = "{" + MyCommonTool.GetRedisSessionName() + "_" + username + "}_Data";
 
             return GetItem(key);
         }
@@ -49,7 +42,7 @@ namespace DemoBackStage.Redis
         {
             IList<string> keys = new List<string>();
 
-            string pattern = string.Format("*{0}*", RedisSessionName);
+            string pattern = "{" + MyCommonTool.GetRedisSessionName() + "_*";
             try
             {
                 using (var client = GetReadOnlyClient())
@@ -57,19 +50,27 @@ namespace DemoBackStage.Redis
                     var keys1 = client.GetKeysByPattern(pattern);
                     foreach (var item in keys1)
                     {
-                        UserInfo ui = client.Get<UserInfo>(item);
-                        if (ui != null && ui.UserName.Equals(username, StringComparison.OrdinalIgnoreCase))
+                        if (item.EndsWith("_Data"))
                         {
-                            keys.Add(item);
+                            string json = client.GetValueFromHash(item, DefConsts.RedisKey_UserInfo);
+                            UserInfo ui = JsonConvert.DeserializeObject<UserInfo>(json);
+                            if (ui != null && ui.UserName.Equals(username, StringComparison.OrdinalIgnoreCase))
+                            {
+                                int index = item.IndexOf("_Data");
+                                string str = item.Substring(0, index);
+                                keys.Add(str + "_Data");
+                                keys.Add(str + "_Internal");
+                            }
                         }
                     }
                 }
             }
             catch (Exception e)
             {
+                string param = string.Format("username: {0}", username);
                 CommonLogger.WriteLog(
                     ELogCategory.Error,
-                    string.Format("UserInfoRedisService.GetAllKeysByUserName Exception: {0}", e.Message),
+                    string.Format("UserInfoRedisService.GetAllKeysByUserName Exception: {0}{1}{2}", e.Message, Environment.NewLine, param),
                     e
                 );
             }

@@ -26,5 +26,12 @@ namespace DemoBackStage.Redis
         /// <param name="code"></param>
         /// <returns></returns>
         bool ResetCode(string Id, string code);
+
+        /// <summary>
+        /// Remove
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        bool Remove(string Id);
     }
 }

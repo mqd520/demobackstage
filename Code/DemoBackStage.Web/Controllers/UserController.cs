@@ -79,6 +79,8 @@ namespace DemoBackStage.Web.Controllers
             bool b = false;
             string msg = "";
 
+
+            string value = "";
             try
             {
                 var v = new UserLoginInfoValidator();
@@ -90,6 +92,7 @@ namespace DemoBackStage.Web.Controllers
                     HttpCookie hc = Request.Cookies[Consts.ValicationCode];
                     if (hc != null)
                     {
+                        value = hc.Value;
                         var code = RedisServiceConfig.CodeRedisService.GetItemByPrefix(hc.Value);
                         if (!string.IsNullOrEmpty(code))
                         {
@@ -147,6 +150,11 @@ namespace DemoBackStage.Web.Controllers
                 HttpCookie hc = new HttpCookie(Consts.ValicationCode);
                 hc.Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies.Add(hc);
+
+                if (!string.IsNullOrEmpty(value))
+                {
+                    RedisServiceConfig.CodeRedisService.Remove(value);
+                }
             }
 
             return new JsonResult

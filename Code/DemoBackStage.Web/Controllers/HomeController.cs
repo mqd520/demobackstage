@@ -14,6 +14,13 @@ namespace DemoBackStage.Web.Controllers
             return View();
         }
 
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+
+            return Redirect("/User");
+        }
+
         public ActionResult Index1()
         {
             Session["key1"] = Guid.NewGuid().ToString();

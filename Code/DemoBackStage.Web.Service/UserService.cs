@@ -59,14 +59,15 @@ namespace DemoBackStage.Web.Service
                             {
                                 var redis = AutoFacHelper.Get<IUserInfoRedisService>();
                                 var ls = redis.GetAllKeysByUserName(username);
-                                var ls1 = ls.Where(x => !x.Equals(sessionId)).ToList();
+                                var ls1 = ls.Where(x => !x.Contains(sessionId)).ToList();
                                 redis.RemoveKeys(ls1);
                             }
                             catch (Exception e)
                             {
+                                string param = string.Format("username: {0}, pwd: {1}, SessionId: {2}", username, pwd, sessionId);
                                 CommonLogger.WriteLog(
                                     ELogCategory.Error,
-                                    string.Format("UserService.Login Task.Factory.StartNew Exception: {0}", e.Message),
+                                    string.Format("UserService.Login Task.Factory.StartNew Exception: {0}{1}{2}", e.Message, Environment.NewLine, param),
                                     e
                                 );
                             }

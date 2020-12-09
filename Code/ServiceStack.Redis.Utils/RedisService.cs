@@ -13,6 +13,8 @@ namespace ServiceStack.Redis.Utils
         #region Property
         public string Prefix { get; set; } = "";
 
+        public string Suffix { get; set; } = "";
+
         public int? Db { get; set; } = null;
 
         public TimeSpan? ExpireTs { get; set; } = null;
@@ -66,14 +68,21 @@ namespace ServiceStack.Redis.Utils
         /// <returns></returns>
         public virtual string GetKey(string key)
         {
+            string key1 = "";
+
             if (!string.IsNullOrEmpty(Prefix))
             {
-                return string.Format("{0}{1}", Prefix, key);
+                key1 += Prefix;
             }
-            else
+
+            key1 += key;
+
+            if (!string.IsNullOrEmpty(Suffix))
             {
-                return key;
+                key1 += Suffix;
             }
+
+            return key1;
         }
 
         /// <summary>

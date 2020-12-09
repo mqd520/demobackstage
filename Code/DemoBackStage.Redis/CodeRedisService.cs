@@ -32,5 +32,15 @@ namespace DemoBackStage.Redis
         {
             return SetItemByPrefix(Id, code);
         }
+
+        /// <summary>
+        /// Remove
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public bool Remove(string Id)
+        {
+            return RemoveKey(GetKey(Id));
+        }
     }
 }

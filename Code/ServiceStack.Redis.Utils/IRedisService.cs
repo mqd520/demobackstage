@@ -10,6 +10,8 @@ namespace ServiceStack.Redis.Utils
     {
         string Prefix { get; set; }
 
+        string Suffix { get; set; }
+
         int? Db { get; set; }
 
         TimeSpan? ExpireTs { get; set; }
