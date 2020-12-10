@@ -31,6 +31,12 @@ namespace DemoBackStage.Web.Controllers
         // GET: User
         public ActionResult Index()
         {
+            var userService = GetUserService();
+            if (userService.IsLogin())
+            {
+                return new RedirectResult("/Home");
+            }
+
             return View();
         }
 

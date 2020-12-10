@@ -169,8 +169,10 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Static\Js\Common\CheckLogin.js" />
+    <Content Include="Static\Js\Home.js" />
     <Content Include="Static\Js\Login.js" />
-    <Content Include="Static\Js\RegTool.js" />
+    <Content Include="Static\Js\Common\RegTool.js" />
     <Content Include="Static\Scripts\jquery-1.10.2.min.js" />
     <Content Include="Static\Scripts\md5.js" />
     <Content Include="Static\Scripts\MiniUI\boot.js" />

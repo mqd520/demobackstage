@@ -37,6 +37,14 @@ namespace DemoBackStage.Web.Filter
                 }
             }
 
+            if (httpContext.Request.Headers.AllKeys.Contains("X-Requested-With") &&
+                                httpContext.Request.Headers["X-Requested-With"].ToString().Trim().Equals("XMLHttpRequest", StringComparison.OrdinalIgnoreCase))
+            {
+                httpContext.Response.ClearContent();
+                httpContext.Response.AddHeader("sessionTimeout", "true");
+                httpContext.Response.End();
+            }
+
             return false;
         }
     }
