@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
+using SqlSugar;
+
 using Common;
 using AutoFacUtils;
 using DemoBackStage.Entity;
@@ -12,6 +14,7 @@ using DemoBackStage.Web.IService;
 using DemoBackStage.IRepository;
 using DemoBackStage.Def;
 using DemoBackStage.Redis;
+using DemoBackStage.DAL;
 
 using DemoBackStage.Web.Service._02_Common;
 
@@ -21,6 +24,8 @@ namespace DemoBackStage.Web.Service
     {
         #region Property
         IUserInfoRepository UserInfoRepository { get { return AutoFacHelper.Get<IUserInfoRepository>(); } }
+
+        IUserLoginLogRepository UserLoginLogRepository { get { return AutoFacHelper.Get<IUserLoginLogRepository>(); } }
         #endregion
 
 
@@ -51,6 +56,15 @@ namespace DemoBackStage.Web.Service
                             RegTime = entity.RegTime,
                             UserName = entity.UserName
                         };
+
+                        UserLoginLogRepository.Add(new UserLoginLogEntity
+                        {
+                            Agent = HttpContext.Current.Request.UserAgent,
+                            Ip = CommonTool.GetClientIp(),
+                            Time = DateTime.Now,
+                            UserName = username
+                        });
+
                         result = EUserLoginResult.Success;
 
                         Task.Factory.StartNew(() =>
@@ -136,6 +150,78 @@ namespace DemoBackStage.Web.Service
             var ui = GetLoginUser();
 
             return ui != null;
+        }
+
+        /// <summary>
+        /// Get User Navs
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public IList<MenuEntity> GetUserNavs(string username)
+        {
+            IList<MenuEntity> ls = new List<MenuEntity>();
+
+            try
+            {
+                using (var db = SqlSugarHelper.GetDb())
+                {
+                    var query = db.Queryable<UserInfoEntity, MenuEntity, RoleEntity, UserRoleEntity, RoleMenuEntity>((ui, m, r, ur, rm) =>
+                         new object[] {
+                         JoinType.Inner, ui.Id == ur.UserId,
+                         JoinType.Inner, ur.RoleId == r.Id,
+                         JoinType.Inner, rm.RoleId == r.Id,
+                         JoinType.Inner, rm.MenuId == m.Id
+                        }
+                    ).Where(x => x.UserName == username).Select((ui, m, r, ur, rm) => m);
+
+                    return query.ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                string param = string.Format("username: {0}", username);
+                CommonLogger.WriteLog(
+                    ELogCategory.Error,
+                    string.Format("UserService.GetUserNavs Exception: {0}{1}{2}", e.Message, Environment.NewLine, param),
+                    e
+                );
+            }
+
+            if (ls.Count > 0)
+            {
+                ls = ls.Distinct(new MenuCompare()).ToList();
+            }
+
+            return ls;
+        }
+
+        /// <summary>
+        /// Get Login User Navs
+        /// </summary>
+        /// <returns></returns>
+        public IList<MenuEntity> GetLoginUserNavs()
+        {
+            var user = GetLoginUser();
+            if (user != null)
+            {
+                return GetUserNavs(user.UserName);
+            }
+
+            return new List<MenuEntity>();
+        }
+    }
+
+
+    internal class MenuCompare : IEqualityComparer<MenuEntity>
+    {
+        public bool Equals(MenuEntity x, MenuEntity y)
+        {
+            return x.Id == y.Id;
+        }
+
+        public int GetHashCode(MenuEntity obj)
+        {
+            return obj.Id * 10 + obj.Level * 20;
         }
     }
 }

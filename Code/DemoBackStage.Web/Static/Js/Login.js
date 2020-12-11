@@ -39,11 +39,11 @@
             dataType: "json",
             data: { UserName: username, Pwd: pwd1, Code: code },
             success: function (data, textStatus, jqXHR) {
-                mini.unmask();
-
                 if (data.Success) {
                     window.location.href = "/Home";
                 } else {
+                    mini.unmask();
+
                     mini.alert(data.Msg, "Demo BackStage Admin...");
                     refreshCode();
                     mini.get("txtCode").setValue("");

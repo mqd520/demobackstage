@@ -8,12 +8,11 @@ var mode = getCookie("miniuiMode") || 'large';                 //mode cookie    
 
 //miniui
 document.write('<script src="' + bootPATH + 'miniui/miniui.js" type="text/javascript" ></sc' + 'ript>');
-document.write('<link href="' + bootPATH + '../res/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />');
+document.write('<link href="' + bootPATH + '../../fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />');
 document.write('<link href="' + bootPATH + 'miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />');
 
 //common
-document.write('<link href="' + bootPATH + '../res/css/common.css" rel="stylesheet" type="text/css" />');
-document.write('<script src="' + bootPATH + '../res/js/common.js" type="text/javascript" ></sc' + 'ript>');
+document.write('<script src="' + bootPATH + '../../js/Common/common.js" type="text/javascript" ></script>');
 
 //skin
 if (skin && skin != "default") document.write('<link href="' + bootPATH + 'miniui/themes/' + skin + '/skin.css" rel="stylesheet" type="text/css" />');

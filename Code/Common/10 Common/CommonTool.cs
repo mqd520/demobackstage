@@ -260,10 +260,10 @@ namespace Common
         /// </summary>
         /// <param name="bIsIgnoreAgent">Is Ignore Agent</param>
         /// <returns></returns>
-        public static string GetClientIp(bool bIsIgnoreAgent = true)
+        public static string GetClientIp(bool bIsIgnoreAgent = false)
         {
             string ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
-            if (bIsIgnoreAgent)
+            if (!bIsIgnoreAgent)
             {
                 string str = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 

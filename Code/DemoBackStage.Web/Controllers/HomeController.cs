@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using AutoFacUtils;
 using DemoBackStage.Web.IService;
 
+using DemoBackStage.Web.Models.User;
+
 namespace DemoBackStage.Web.Controllers
 {
     public class HomeController : Controller
@@ -30,6 +32,29 @@ namespace DemoBackStage.Web.Controllers
             Session.Abandon();
 
             return Redirect("/User");
+        }
+
+        [HttpPost]
+        public ActionResult Nav()
+        {
+            var srv = GetUserService();
+            var ls = srv.GetLoginUserNavs();
+            var ls1 = ls.Select(x => new NavInfoModel
+            {
+                Id = x.Id,
+                IsDir = x.isdir > 0,
+                Level = x.Level,
+                Name = x.Name,
+                Rank = x.Rank,
+                Url = x.Url
+            }).ToList();
+
+            return new JsonResult
+            {
+                ContentType = "application/json",
+                Data = ls1,
+                JsonRequestBehavior = JsonRequestBehavior.DenyGet
+            };
         }
 
         [HttpPost]

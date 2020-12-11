@@ -1,4 +1,4 @@
-﻿
+
 *,
 *:before,
 *:after{    
@@ -153,10 +153,7 @@ body .mini-fixed
 	top:0;
 	width:100%;
 	height:100%;
-	background: black;
-	opacity: 0.3;
-	-moz-opacity: 0.3;
-	filter: alpha(opacity=30);
+	background:#ccc;opacity: .3;-moz-opacity: .3;filter: alpha(opacity=30);
 }
 
 

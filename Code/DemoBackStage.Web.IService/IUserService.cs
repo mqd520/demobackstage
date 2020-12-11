@@ -35,5 +35,18 @@ namespace DemoBackStage.Web.IService
         /// </summary>
         /// <returns></returns>
         bool IsLogin();
+
+        /// <summary>
+        /// Get User Navs
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        IList<MenuEntity> GetUserNavs(string username);
+
+        /// <summary>
+        /// Get Login User Navs
+        /// </summary>
+        /// <returns></returns>
+        IList<MenuEntity> GetLoginUserNavs();
     }
 }

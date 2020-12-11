@@ -3,10 +3,64 @@
     ViewBag.Title = "Index";
 }
 
-<h2>@Html.ActionLink("退出登录", "Logout")</h2>
+<div class="navbar" style="margin-bottom: 0px;">
+    <div class="navbar-header">
+        <div class="navbar-brand">Demo</div>
+        <div class="navbar-brand navbar-brand-compact">D</div>
+    </div>
+    <ul class="nav navbar-nav">
+        <li><a id="toggle"><span class="fa fa-bars"></span></a></li>
+        <li class="icontop"><a href="#"><i class="fa  fa-cog"></i><span>系统设置</span></a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
+        <li><a href="#"><i class="fa fa-paper-plane"></i> 退出登录</a></li>
+        <li class="dropdown">
+            <a class="dropdown-toggle userinfo">
+                <img class="user-img" src="~/Static/images/user.png" />个人资料<i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu pull-right">
+                <li><a href="#"><i class="fa fa-eye "></i> 用户信息</a></li>
+                <li><a href="#"><i class="fa fa-user"></i> 退出登录</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
 
-@*<input type="button" id="btnCheckLogin" value="Check Login" />*@
+<div class="container">
 
+    <div class="sidebar">
+        <div class="sidebar-toggle"><i class="fa fa-fw fa-dedent"></i></div>
+        <div id="mainMenu"></div>
+    </div>
+
+    <div class="main">
+        <div id="mainTabs" class="mini-tabs main-tabs" activeIndex="0" style="height:100%;" plain="false"
+             buttons="#tabsButtons" arrowPosition="side">
+            <div name="index" iconCls="fa-android" title="控制台">
+                Demo BackStage Admin Site
+            </div>
+        </div>
+        <div id="tabsButtons">
+            <a class="tabsBtn"><i class="fa fa-home"></i></a>
+            <a class="tabsBtn"><i class="fa fa-refresh"></i></a>
+            <a class="tabsBtn"><i class="fa fa-remove"></i></a>
+            <a class="tabsBtn"><i class="fa fa-arrows-alt"></i></a>
+        </div>
+    </div>
+
+</div>
+
+<link type="text/css" rel="stylesheet" href="~/Static/Scripts/scrollbar/jquery.mCustomScrollbar.css" />
+<script type="text/javascript" src="~/Static/Scripts/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<link type="text/css" rel="stylesheet" href="~/Static/css/menu.css" />
+<script type="text/javascript" src="~/Static/Js/Common/menu.js"></script>
+<script type="text/javascript" src="~/Static/Js/Common/menutip.js"></script>
+
+<link type="text/css" rel="stylesheet" href="~/Static/css/tabs.css" />
+<link type="text/css" rel="stylesheet" href="~/Static/css/frame.css" />
+<link type="text/css" rel="stylesheet" href="~/Static/css/Home.css" />
 
 <script type="text/javascript" src="~/Static/Js/Common/RegTool.js"></script>
 <script type="text/javascript" src="~/Static/Js/Common/CheckLogin.js"></script>

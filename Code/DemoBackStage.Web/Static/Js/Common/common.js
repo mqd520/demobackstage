@@ -1,8 +1,3 @@
-﻿
-$(function () {
-    document.body.style.visibility = "visible";
-});
-
 
 function saveGrid(grid, options) {
 
@@ -22,7 +17,7 @@ function saveGrid(grid, options) {
         type: "post",
         success: function (text) {
             var result = mini.decode(text),
-                success = result.success !== false; // { success: true, message: "" }
+                success = result.success !== false;
 
             if (options.callback(success, result) !== false) {
                 if (success) {
@@ -96,7 +91,4 @@ function saveForm(form, options) {
     }
     
 })();
-
-
-
 

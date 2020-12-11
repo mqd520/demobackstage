@@ -40,8 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMenuRepository.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="IRoleMenuRepository.cs" />
+    <Compile Include="IRoleRepository.cs" />
     <Compile Include="IUserInfoRepository.cs" />
+    <Compile Include="IUserLoginLogRepository.cs" />
+    <Compile Include="IUserRoleRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

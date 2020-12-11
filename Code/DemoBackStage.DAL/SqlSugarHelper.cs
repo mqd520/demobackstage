@@ -153,7 +153,7 @@ namespace DemoBackStage.DAL
             string strParam = "";
             if (arg2 != null)
             {
-                strParam = arg2.ConcatElement(Environment.NewLine, x => string.Format("{0}: {1}", x.ParameterName, x.Value.ToString()));
+                strParam = arg2.ConcatElement(Environment.NewLine, x => string.Format("{0}: {1}", x.ParameterName, x.Value?.ToString() ?? "null"));
             }
 
             ConsoleHelper.WriteLine(
