@@ -175,6 +175,7 @@
     <Content Include="Static\css\tabs.css" />
     <Content Include="Static\Js\Common\menu.js" />
     <Content Include="Static\Js\Common\CheckLogin.js" />
+    <Content Include="Static\Js\Config.js" />
     <Content Include="Static\Js\Home.js" />
     <Content Include="Static\Js\Login.js" />
     <Content Include="Static\Js\Common\RegTool.js" />
@@ -2667,14 +2668,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\MiniUIDataGrid.cs" />
     <Compile Include="Models\MiniUIQueryModel.cs" />
-    <Compile Include="Models\User\NavInfoModel.cs" />
-    <Compile Include="Models\User\UserLoginInfoModel.cs" />
+    <Compile Include="Models\UserLoginInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validator\MiniUIQueryValidator.cs" />
-    <Compile Include="Validator\System\MenuQueryModelValidator.cs" />
+    <Compile Include="Validator\System\UserLoginLogQueryModelValidator.cs" />
     <Compile Include="Validator\UserLoginInfoValidator.cs" />
+    <Compile Include="ViewData\MiniUIDataGridVD.cs" />
+    <Compile Include="ViewData\NavInfoVD.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

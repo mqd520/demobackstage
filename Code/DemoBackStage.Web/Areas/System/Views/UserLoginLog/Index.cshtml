@@ -30,12 +30,13 @@
 
     <div id="datagrid1" class="mini-datagrid" style="width: 100%; height: 100%;"
          url="~/System/UserLoginLog/List" idField="Id" sizeList="[10,30,50]" pageSize="10" allowAlternating="true"
-         allowResizeColumn="false" allowMoveColumn="false" showEmptyText="true" emptyText="暂无数据" autoLoad="true">
+         allowResizeColumn="false" allowMoveColumn="false" showEmptyText="true" emptyText="暂无数据" autoLoad="false"
+         onloaderror="onDataGridLoadError()">
         <div property="columns">
             <div type="indexcolumn" width="40"></div>
             <div field="UserName" width="140" headerAlign="center" allowSort="true" align="center">UserName</div>
             <div field="Ip" width="140" headerAlign="center" allowSort="true" align="center">Ip</div>
-            <div field="Time" width="140" align="center" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" align="center">Time</div>
+            <div field="Time" width="160" align="center" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" align="center">Time</div>
             <div field="Agent" width="auto" allowSort="true">Agent</div>
         </div>
     </div>

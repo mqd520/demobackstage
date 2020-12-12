@@ -22,9 +22,9 @@ namespace DemoBackStage.IRepository
         /// <param name="endTime"></param>
         /// <returns></returns>
         IList<UserLoginLogEntity> QueryPaging(int page, int size, out int count,
-            string username,
-            string ip,
-            DateTime? startTime, DateTime? endTime
+            string username = null,
+            string ip = null,
+            DateTime? startTime = null, DateTime? endTime = null
         );
     }
 }

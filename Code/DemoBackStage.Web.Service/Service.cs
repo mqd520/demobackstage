@@ -13,7 +13,7 @@ namespace DemoBackStage.Web.Service
     public class Service<T> where T : class, new()
     {
         #region Property
-        protected IRepository<T> Repository { get { return AutoFacHelper.Get<IRepository<T>>(); } }
+        public virtual IRepository<T> GetRepository() { return AutoFacHelper.Get<IRepository<T>>(); }
         #endregion
 
 
@@ -25,9 +25,9 @@ namespace DemoBackStage.Web.Service
         /// <typeparam name="Tkey"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public T QuerySingleById<Tkey>(Tkey id)
+        public virtual T QuerySingleById<Tkey>(Tkey id)
         {
-            return Repository.QuerySingleById<Tkey>(id);
+            return GetRepository().QuerySingleById<Tkey>(id);
         }
 
         /// <summary>
@@ -35,9 +35,9 @@ namespace DemoBackStage.Web.Service
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
-        public T QuerySingle(Expression<Func<T, bool>> where)
+        public virtual T QuerySingle(Expression<Func<T, bool>> where)
         {
-            return Repository.QuerySingle(where);
+            return GetRepository().QuerySingle(where);
         }
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace DemoBackStage.Web.Service
         /// <typeparam name="Tkey"></typeparam>
         /// <param name="where"></param>
         /// <returns></returns>
-        public T QuerySingle(IEnumerable<Expression<Func<T, bool>>> wheres)
+        public virtual T QuerySingle(IEnumerable<Expression<Func<T, bool>>> wheres)
         {
-            return Repository.QuerySingle(wheres);
+            return GetRepository().QuerySingle(wheres);
         }
         #endregion
 
@@ -58,9 +58,9 @@ namespace DemoBackStage.Web.Service
         /// Query All
         /// </summary>
         /// <returns></returns>
-        public IList<T> QueryAll()
+        public virtual IList<T> QueryAll()
         {
-            return Repository.QueryAll();
+            return GetRepository().QueryAll();
         }
 
         /// <summary>
@@ -69,9 +69,9 @@ namespace DemoBackStage.Web.Service
         /// <param name="keySelector"></param>
         /// <param name="asc"></param>
         /// <returns></returns>
-        public IList<T> QueryAll(Expression<Func<T, object>> keySelector, bool asc)
+        public virtual IList<T> QueryAll(Expression<Func<T, object>> keySelector, bool asc)
         {
-            return Repository.QueryAll(keySelector, asc);
+            return GetRepository().QueryAll(keySelector, asc);
         }
 
         /// <summary>
@@ -79,9 +79,9 @@ namespace DemoBackStage.Web.Service
         /// </summary>
         /// <param name="lsWhere"></param>
         /// <returns></returns>
-        public IList<T> QueryAll(Expression<Func<T, bool>> where)
+        public virtual IList<T> QueryAll(Expression<Func<T, bool>> where)
         {
-            return Repository.QueryAll(where);
+            return GetRepository().QueryAll(where);
         }
 
         /// <summary>
@@ -89,9 +89,9 @@ namespace DemoBackStage.Web.Service
         /// </summary>
         /// <param name="lsWhere"></param>
         /// <returns></returns>
-        public IList<T> QueryAll(IList<Expression<Func<T, bool>>> lsWhere)
+        public virtual IList<T> QueryAll(IList<Expression<Func<T, bool>>> lsWhere)
         {
-            return Repository.QueryAll(lsWhere);
+            return GetRepository().QueryAll(lsWhere);
         }
 
         /// <summary>
@@ -101,9 +101,9 @@ namespace DemoBackStage.Web.Service
         /// <param name="keySelector"></param>
         /// <param name="asc"></param>
         /// <returns></returns>
-        public IList<T> QueryAll(IList<Expression<Func<T, bool>>> lsWhere, Expression<Func<T, object>> keySelector, bool asc)
+        public virtual IList<T> QueryAll(IList<Expression<Func<T, bool>>> lsWhere, Expression<Func<T, object>> keySelector, bool asc)
         {
-            return Repository.QueryAll(lsWhere, keySelector, asc);
+            return GetRepository().QueryAll(lsWhere, keySelector, asc);
         }
 
         /// <summary>
@@ -113,9 +113,9 @@ namespace DemoBackStage.Web.Service
         /// <param name="keySelector"></param>
         /// <param name="asc"></param>
         /// <returns></returns>
-        public IList<T> QueryAll(Expression<Func<T, bool>> where, Expression<Func<T, object>> keySelector, bool asc)
+        public virtual IList<T> QueryAll(Expression<Func<T, bool>> where, Expression<Func<T, object>> keySelector, bool asc)
         {
-            return Repository.QueryAll(where, keySelector, asc);
+            return GetRepository().QueryAll(where, keySelector, asc);
         }
         #endregion
 
@@ -128,9 +128,9 @@ namespace DemoBackStage.Web.Service
         /// <param name="size"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public IList<T> QueryPaging(int page, int size, out int count)
+        public virtual IList<T> QueryPaging(int page, int size, out int count)
         {
-            return Repository.QueryPaging(page, size, out count);
+            return GetRepository().QueryPaging(page, size, out count);
         }
 
         /// <summary>
@@ -140,9 +140,9 @@ namespace DemoBackStage.Web.Service
         /// <param name="size"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public IList<T> QueryPaging(int page, int size, out int count, Expression<Func<T, object>> keySelector, bool asc)
+        public virtual IList<T> QueryPaging(int page, int size, out int count, Expression<Func<T, object>> keySelector, bool asc)
         {
-            return Repository.QueryPaging(page, size, out count, keySelector, asc);
+            return GetRepository().QueryPaging(page, size, out count, keySelector, asc);
         }
 
         /// <summary>
@@ -153,9 +153,9 @@ namespace DemoBackStage.Web.Service
         /// <param name="count"></param>
         /// <param name="where"></param>
         /// <returns></returns>
-        public IList<T> QueryPaging(int page, int size, out int count, Expression<Func<T, bool>> where)
+        public virtual IList<T> QueryPaging(int page, int size, out int count, Expression<Func<T, bool>> where)
         {
-            return Repository.QueryPaging(page, size, out count, where);
+            return GetRepository().QueryPaging(page, size, out count, where);
         }
 
         /// <summary>
@@ -166,9 +166,9 @@ namespace DemoBackStage.Web.Service
         /// <param name="count"></param>
         /// <param name="lsWhere"></param>
         /// <returns></returns>
-        public IList<T> QueryPaging(int page, int size, out int count, IList<Expression<Func<T, bool>>> lsWhere)
+        public virtual IList<T> QueryPaging(int page, int size, out int count, IList<Expression<Func<T, bool>>> lsWhere)
         {
-            return Repository.QueryPaging(page, size, out count, lsWhere);
+            return GetRepository().QueryPaging(page, size, out count, lsWhere);
         }
 
         /// <summary>
@@ -181,9 +181,9 @@ namespace DemoBackStage.Web.Service
         /// <param name="keySelector"></param>
         /// <param name="asc"></param>
         /// <returns></returns>
-        public IList<T> QueryPaging(int page, int size, out int count, IList<Expression<Func<T, bool>>> lsWhere, Expression<Func<T, object>> keySelector, bool asc)
+        public virtual IList<T> QueryPaging(int page, int size, out int count, IList<Expression<Func<T, bool>>> lsWhere, Expression<Func<T, object>> keySelector, bool asc)
         {
-            return Repository.QueryPaging(page, size, out count, lsWhere, keySelector, asc);
+            return GetRepository().QueryPaging(page, size, out count, lsWhere, keySelector, asc);
         }
 
         /// <summary>
@@ -196,9 +196,9 @@ namespace DemoBackStage.Web.Service
         /// <param name="keySelector"></param>
         /// <param name="asc"></param>
         /// <returns></returns>
-        public IList<T> QueryPaging(int page, int size, out int count, Expression<Func<T, bool>> where, Expression<Func<T, object>> keySelector, bool asc)
+        public virtual IList<T> QueryPaging(int page, int size, out int count, Expression<Func<T, bool>> where, Expression<Func<T, object>> keySelector, bool asc)
         {
-            return Repository.QueryPaging(page, size, out count, where, keySelector, asc);
+            return GetRepository().QueryPaging(page, size, out count, where, keySelector, asc);
         }
         #endregion
         #endregion
@@ -210,9 +210,9 @@ namespace DemoBackStage.Web.Service
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public int Add(T entity)
+        public virtual int Add(T entity)
         {
-            return Repository.Add(entity);
+            return GetRepository().Add(entity);
         }
 
         /// <summary>
@@ -220,9 +220,9 @@ namespace DemoBackStage.Web.Service
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public T Add1(T entity)
+        public virtual T Add1(T entity)
         {
-            return Repository.Add1(entity);
+            return GetRepository().Add1(entity);
         }
 
         /// <summary>
@@ -230,9 +230,9 @@ namespace DemoBackStage.Web.Service
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
-        public int Add(IEnumerable<T> entities)
+        public virtual int Add(IEnumerable<T> entities)
         {
-            return Repository.Add(entities);
+            return GetRepository().Add(entities);
         }
         #endregion
 
@@ -243,9 +243,9 @@ namespace DemoBackStage.Web.Service
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public int Update(T entity)
+        public virtual int Update(T entity)
         {
-            return Repository.Update(entity);
+            return GetRepository().Update(entity);
         }
 
         /// <summary>
@@ -253,9 +253,9 @@ namespace DemoBackStage.Web.Service
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
-        public int Update(IEnumerable<T> entities)
+        public virtual int Update(IEnumerable<T> entities)
         {
-            return Repository.Update(entities);
+            return GetRepository().Update(entities);
         }
         #endregion
 
@@ -265,18 +265,18 @@ namespace DemoBackStage.Web.Service
         /// Delete
         /// </summary>
         /// <param name="entity"></param>
-        public int Delete(T entity)
+        public virtual int Delete(T entity)
         {
-            return Repository.Delete(entity);
+            return GetRepository().Delete(entity);
         }
 
         /// <summary>
         /// Delete
         /// </summary>
         /// <param name="entity"></param>
-        public int Delete(IEnumerable<T> entities)
+        public virtual int Delete(IEnumerable<T> entities)
         {
-            return Repository.Delete(entities);
+            return GetRepository().Delete(entities);
         }
 
         /// <summary>
@@ -285,9 +285,9 @@ namespace DemoBackStage.Web.Service
         /// <typeparam name="TKey"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public int Delete<TKey>(TKey id)
+        public virtual int Delete<TKey>(TKey id)
         {
-            return Repository.Delete<TKey>(id);
+            return GetRepository().Delete<TKey>(id);
         }
 
         /// <summary>
@@ -296,9 +296,9 @@ namespace DemoBackStage.Web.Service
         /// <typeparam name="TKey"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public int Delete<TKey>(IEnumerable<TKey> ids)
+        public virtual int Delete<TKey>(IEnumerable<TKey> ids)
         {
-            return Repository.Delete(ids);
+            return GetRepository().Delete(ids);
         }
         #endregion
     }

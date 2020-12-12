@@ -23,9 +23,9 @@ namespace DemoBackStage.Repository
         /// <param name="endTime"></param>
         /// <returns></returns>
         public IList<UserLoginLogEntity> QueryPaging(int page, int size, out int count,
-            string username,
-            string ip,
-            DateTime? startTime, DateTime? endTime
+            string username = null,
+            string ip = null,
+            DateTime? startTime = null, DateTime? endTime = null
         )
         {
             using (var db = GetDb())
@@ -52,7 +52,7 @@ namespace DemoBackStage.Repository
                 count = query.Count();
                 if (count > 0)
                 {
-                    query = query.Skip(page * size).Take(size);
+                    query = query.Skip((page - 1) * size).Take(size);
 
                     return query.ToList();
                 }

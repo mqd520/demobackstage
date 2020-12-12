@@ -23,9 +23,9 @@ namespace DemoBackStage.Web.Service
     public class UserService : Service<UserInfoEntity>, IUserService
     {
         #region Property
-        IUserInfoRepository UserInfoRepository { get { return AutoFacHelper.Get<IUserInfoRepository>(); } }
+        public virtual IUserInfoRepository GetUserInfoRepository() { return AutoFacHelper.Get<IUserInfoRepository>(); }
 
-        IUserLoginLogRepository UserLoginLogRepository { get { return AutoFacHelper.Get<IUserLoginLogRepository>(); } }
+        public virtual IUserLoginLogRepository GetUserLoginLogRepository() { return AutoFacHelper.Get<IUserLoginLogRepository>(); }
         #endregion
 
 
@@ -35,14 +35,14 @@ namespace DemoBackStage.Web.Service
         /// <param name="username"></param>
         /// <param name="pwd"></param>
         /// <returns></returns>
-        public EUserLoginResult Login(string username, string pwd)
+        public virtual EUserLoginResult Login(string username, string pwd)
         {
             EUserLoginResult result = EUserLoginResult.Fail;
 
             string pwd1 = MyCommonTool.Encrypt(pwd);
             try
             {
-                var entity = UserInfoRepository.QueryByUserName(username);
+                var entity = GetUserInfoRepository().QueryByUserName(username);
                 if (entity != null)
                 {
                     if (entity.Pwd.Equals(pwd1, StringComparison.OrdinalIgnoreCase))
@@ -57,7 +57,7 @@ namespace DemoBackStage.Web.Service
                             UserName = entity.UserName
                         };
 
-                        UserLoginLogRepository.Add(new UserLoginLogEntity
+                        GetUserLoginLogRepository().Add(new UserLoginLogEntity
                         {
                             Agent = HttpContext.Current.Request.UserAgent,
                             Ip = CommonTool.GetClientIp(),
@@ -112,7 +112,7 @@ namespace DemoBackStage.Web.Service
         /// <summary>
         /// Logout
         /// </summary>
-        public void Logout()
+        public virtual void Logout()
         {
 
         }
@@ -121,7 +121,7 @@ namespace DemoBackStage.Web.Service
         /// Get Login User
         /// </summary>
         /// <returns></returns>
-        public UserInfo GetLoginUser()
+        public virtual UserInfo GetLoginUser()
         {
             UserInfo ui = null;
 
@@ -145,7 +145,7 @@ namespace DemoBackStage.Web.Service
         /// Is Login
         /// </summary>
         /// <returns></returns>
-        public bool IsLogin()
+        public virtual bool IsLogin()
         {
             var ui = GetLoginUser();
 
@@ -157,7 +157,7 @@ namespace DemoBackStage.Web.Service
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        public IList<MenuEntity> GetUserNavs(string username)
+        public virtual IList<MenuEntity> GetUserNavs(string username)
         {
             IList<MenuEntity> ls = new List<MenuEntity>();
 
@@ -199,7 +199,7 @@ namespace DemoBackStage.Web.Service
         /// Get Login User Navs
         /// </summary>
         /// <returns></returns>
-        public IList<MenuEntity> GetLoginUserNavs()
+        public virtual IList<MenuEntity> GetLoginUserNavs()
         {
             var user = GetLoginUser();
             if (user != null)
@@ -214,12 +214,12 @@ namespace DemoBackStage.Web.Service
 
     internal class MenuCompare : IEqualityComparer<MenuEntity>
     {
-        public bool Equals(MenuEntity x, MenuEntity y)
+        public virtual bool Equals(MenuEntity x, MenuEntity y)
         {
             return x.Id == y.Id;
         }
 
-        public int GetHashCode(MenuEntity obj)
+        public virtual int GetHashCode(MenuEntity obj)
         {
             return obj.Id * 10 + obj.Level * 20;
         }

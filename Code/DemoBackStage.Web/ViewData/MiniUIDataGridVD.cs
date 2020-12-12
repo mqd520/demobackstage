@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DemoBackStage.Web.Models
+namespace DemoBackStage.Web.ViewData
 {
-    public class MiniUIDataGrid<T>
+    public class MiniUIDataGridVD<T>
     {
         public IEnumerable<T> data { get; set; }
 

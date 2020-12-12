@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using AutoFacUtils;
 using DemoBackStage.Web.IService;
 
-using DemoBackStage.Web.Models.User;
+using DemoBackStage.Web.ViewData;
 
 namespace DemoBackStage.Web.Controllers
 {
@@ -39,7 +39,7 @@ namespace DemoBackStage.Web.Controllers
         {
             var srv = GetUserService();
             var ls = srv.GetLoginUserNavs();
-            var ls1 = ls.Select(x => new NavInfoModel
+            var ls1 = ls.Select(x => new NavInfoVD
             {
                 Id = x.Id,
                 IsDir = x.isdir > 0,

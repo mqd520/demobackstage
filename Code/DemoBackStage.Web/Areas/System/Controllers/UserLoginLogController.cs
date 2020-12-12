@@ -5,6 +5,8 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 
+using Newtonsoft.Json;
+
 using Common;
 using AutoFacUtils;
 using DemoBackStage.Entity;
@@ -12,7 +14,7 @@ using DemoBackStage.IRepository;
 using DemoBackStage.Web.IService;
 
 using DemoBackStage.Web.Common;
-using DemoBackStage.Web.Models;
+using DemoBackStage.Web.ViewData;
 using DemoBackStage.Web.Areas.System.Models;
 
 namespace DemoBackStage.Web.Areas.System.Controllers
@@ -39,12 +41,12 @@ namespace DemoBackStage.Web.Areas.System.Controllers
 
             try
             {
-                var srv = GetUserLoginLogService();
-                ls = srv.QueryPaging(param.pageIndex + 1, param.pageSize, out count, wheres);
+                var srv = GetUserLoginLogRepository();
+                ls = srv.QueryPaging(param.pageIndex + 1, param.pageSize, out count, param.UserName, param.Ip);
             }
             catch (Exception e)
             {
-                string paramStr = string.Format("");
+                string paramStr = JsonConvert.SerializeObject(param);
                 CommonLogger.WriteLog(
                     ELogCategory.Error,
                     string.Format("UserLoginLogController.List Exception: {0}{1}{2}", e.Message, Environment.NewLine, paramStr),
@@ -55,7 +57,7 @@ namespace DemoBackStage.Web.Areas.System.Controllers
             return new MyJsonResult
             {
                 ContentType = "application/json",
-                Data = new MiniUIDataGrid<UserLoginLogEntity>
+                Data = new MiniUIDataGridVD<UserLoginLogEntity>
                 {
                     data = ls,
                     total = count

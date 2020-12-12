@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DemoBackStage.Web.Models.User
+namespace DemoBackStage.Web.ViewData
 {
-    public class NavInfoModel
+    public class NavInfoVD
     {
         public int Id { get; set; }
 

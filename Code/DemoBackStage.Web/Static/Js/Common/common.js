@@ -72,12 +72,12 @@ function saveForm(form, options) {
 
 
 (function () {
-    
+
     var proto = mini.ComboBox.prototype,
         set = proto.set;
-    
-    proto.set = function(values){
-        if(!this._inited){
+
+    proto.set = function (values) {
+        if (!this._inited) {
             this._inited = true;
 
             //values.ajaxOptions = $.extend({cache: true}, values.ajaxOptions);            
@@ -86,9 +86,9 @@ function saveForm(form, options) {
         set.apply(this, arguments);
     }
 
-    function init(me){
-        
+    function init(me) {
+
     }
-    
+
 })();
 

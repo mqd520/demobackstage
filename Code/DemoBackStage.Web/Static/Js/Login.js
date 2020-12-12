@@ -1,6 +1,14 @@
 ﻿(function () {
 
     $(document).ready(function () {
+        if (window.parent != window) {
+            var prop = window.parent.document.body.attributes["SiteId"];
+            if (prop != null && prop != undefined && prop.value == "asgdhgdhsgjh") {
+                window.parent.location.href = "/User";
+                return;
+            }
+        }
+
         mini.parse();
 
         $("#btnLogin").click(onLoginClick);

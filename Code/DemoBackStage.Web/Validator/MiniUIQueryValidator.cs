@@ -9,7 +9,7 @@ using DemoBackStage.Web.Models;
 
 namespace DemoBackStage.Web.Validator
 {
-    public class MiniUIQueryValidator : AbstractValidator<MiniUIQueryModel>
+    public class MiniUIQueryValidator<T> : AbstractValidator<T> where T : MiniUIQueryModel
     {
         public MiniUIQueryValidator()
         {
