@@ -51,6 +51,7 @@ namespace DemoBackStage.Web
 
             Server.ClearError();
             http.Response.StatusCode = 500;
+            http.Response.End();
         }
     }
 }

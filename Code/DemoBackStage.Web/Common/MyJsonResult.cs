@@ -19,18 +19,24 @@ namespace DemoBackStage.Web.Common
 
             HttpResponseBase response = context.HttpContext.Response;
 
-            if (!String.IsNullOrEmpty(ContentType))
+            if (string.IsNullOrEmpty(response.ContentType))
             {
-                response.ContentType = ContentType;
-            }
-            else
-            {
-                response.ContentType = "application/json";
+                if (!String.IsNullOrEmpty(ContentType))
+                {
+                    response.ContentType = ContentType;
+                }
+                else
+                {
+                    response.ContentType = "application/json";
+                }
             }
 
-            if (ContentEncoding != null)
+            if (response.ContentEncoding == null)
             {
-                response.ContentEncoding = ContentEncoding;
+                if (ContentEncoding != null)
+                {
+                    response.ContentEncoding = ContentEncoding;
+                }
             }
 
             if (Data != null)

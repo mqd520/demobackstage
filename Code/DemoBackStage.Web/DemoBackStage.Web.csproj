@@ -2665,6 +2665,7 @@
     <Compile Include="Def\Consts.cs" />
     <Compile Include="Filter\LoginAuthorizeFilterAttribute.cs" />
     <Compile Include="Filter\MyCustomErrorFilterAttribute.cs" />
+    <Compile Include="Filter\ValidatorFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -37,6 +37,12 @@ namespace DemoBackStage.Web.IService
         bool IsLogin();
 
         /// <summary>
+        /// Is Administrator
+        /// </summary>
+        /// <returns></returns>
+        bool IsAdministrator();
+
+        /// <summary>
         /// Get User Navs
         /// </summary>
         /// <param name="username"></param>

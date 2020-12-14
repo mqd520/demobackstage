@@ -84,6 +84,7 @@
     <Compile Include="10 Common\EnumTool.cs" />
     <Compile Include="10 Common\MyJsonTool.cs" />
     <Compile Include="10 Common\RegExpTool.cs" />
+    <Compile Include="10 Common\WebTool.cs" />
     <Compile Include="11 Http Client\HttpWebRequestProxySectionHandler.cs" />
     <Compile Include="10 Common\MyUrlTool.cs" />
     <Compile Include="11 Http Client\HttpTool.cs" />

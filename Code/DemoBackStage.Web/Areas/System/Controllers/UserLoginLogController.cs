@@ -14,8 +14,10 @@ using DemoBackStage.IRepository;
 using DemoBackStage.Web.IService;
 
 using DemoBackStage.Web.Common;
+using DemoBackStage.Web.Filter;
 using DemoBackStage.Web.ViewData;
 using DemoBackStage.Web.Areas.System.Models;
+using DemoBackStage.Web.Validator.System;
 
 namespace DemoBackStage.Web.Areas.System.Controllers
 {
@@ -24,7 +26,9 @@ namespace DemoBackStage.Web.Areas.System.Controllers
         #region Property
         private IUserLoginLogRepository GetUserLoginLogRepository() { return AutoFacHelper.Get<IUserLoginLogRepository>(); }
 
-        private IService<UserLoginLogEntity> GetUserLoginLogService() { return AutoFacHelper.Get<IService<UserLoginLogEntity>>(); }
+        private IUserService GetUserService() { return AutoFacHelper.Get<IUserService>(); }
+
+        private IUserLoginLogService GetUserLoginLogService() { return AutoFacHelper.Get<IUserLoginLogService>(); }
         #endregion
 
 
@@ -34,6 +38,7 @@ namespace DemoBackStage.Web.Areas.System.Controllers
         }
 
         [HttpPost]
+        [ValidatorFilter(typeof(UserLoginLogQueryModelValidator), typeof(UserLoginLogQueryModel))]
         public ActionResult List(UserLoginLogQueryModel param)
         {
             int count = 0;
@@ -41,14 +46,15 @@ namespace DemoBackStage.Web.Areas.System.Controllers
 
             try
             {
-                var srv = GetUserLoginLogRepository();
-                ls = srv.QueryPaging(param.pageIndex + 1, param.pageSize, out count, param.UserName, param.Ip);
+                var srv = GetUserLoginLogService();
+                ls = srv.QueryPaging(param.pageIndex + 1, param.pageSize, out count,
+                    param.Ip, param.StartTime, param.EndTime, param.sortField, param.sortOrder);
             }
             catch (Exception e)
             {
                 string paramStr = JsonConvert.SerializeObject(param);
                 CommonLogger.WriteLog(
-                    ELogCategory.Error,
+                    ELogCategory.Fatal,
                     string.Format("UserLoginLogController.List Exception: {0}{1}{2}", e.Message, Environment.NewLine, paramStr),
                     e
                 );

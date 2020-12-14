@@ -16,6 +16,7 @@ using DemoBackStage.Def;
 using DemoBackStage.Redis;
 using DemoBackStage.DAL;
 
+using DemoBackStage.Web.Service._01_Config;
 using DemoBackStage.Web.Service._02_Common;
 
 namespace DemoBackStage.Web.Service
@@ -150,6 +151,21 @@ namespace DemoBackStage.Web.Service
             var ui = GetLoginUser();
 
             return ui != null;
+        }
+
+        /// <summary>
+        /// Is Administrator
+        /// </summary>
+        /// <returns></returns>
+        public bool IsAdministrator()
+        {
+            var user = GetLoginUser();
+            if (user != null)
+            {
+                return user.UserName.Equals(MyConfig.Administrator);
+            }
+
+            return false;
         }
 
         /// <summary>

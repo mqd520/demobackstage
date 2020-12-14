@@ -18,7 +18,8 @@
         var username = mini.get("txtUserName").getValue();
 
         mini.get("datagrid1").load({
-            UserName: username
+            UserName: username,
+            StartTime: "sdhajkshdjkahsjkd"
         });
     }
 
