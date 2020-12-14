@@ -10,6 +10,7 @@ using DemoBackStage.Entity;
 using DemoBackStage.IRepository;
 
 using DemoBackStage.Repository._01_Config;
+using DemoBackStage.Repository._02_Common;
 
 namespace DemoBackStage.Repository
 {
@@ -21,6 +22,7 @@ namespace DemoBackStage.Repository
         /// <param name="page"></param>
         /// <param name="size"></param>
         /// <param name="count"></param>
+        /// <param name="username"></param>
         /// <param name="ip"></param>
         /// <param name="startTime"></param>
         /// <param name="endTime"></param>
@@ -29,6 +31,7 @@ namespace DemoBackStage.Repository
         /// <param name="IsContainAdmin"></param>
         /// <returns></returns>
         public IList<UserLoginLogEntity> QueryPaging(int page, int size, out int count,
+            string username,
             string ip = null,
             DateTime? startTime = null, DateTime? endTime = null,
             string orderBy = "",
@@ -40,6 +43,10 @@ namespace DemoBackStage.Repository
             {
                 var query = db.Queryable<UserLoginLogEntity>();
 
+                if (!string.IsNullOrEmpty(username))
+                {
+                    query = query.Where(x => x.UserName.Contains(username));
+                }
                 if (!string.IsNullOrEmpty(ip))
                 {
                     query = query.Where(x => x.Ip.Contains(ip));
@@ -54,18 +61,15 @@ namespace DemoBackStage.Repository
                 }
                 if (!IsContainAdmin)
                 {
-                    //query = query.Where(x => x.UserName != MyConfig.Administrator);
+                    query = query.Where(x => x.UserName != MyConfig.Administrator);
                 }
-
-                query = query.Where(x => x.UserName == "' or 1=1; delete table userloginlog;  --;");
 
                 count = query.Count();
                 if (count > 0)
                 {
-
                     if (!string.IsNullOrEmpty(orderBy))
                     {
-                        query = query.OrderByIF(asc, orderBy);
+                        query = MyCommonTool.AddOrderBy<UserLoginLogEntity>(db, query, orderBy, asc);
                     }
                     else
                     {

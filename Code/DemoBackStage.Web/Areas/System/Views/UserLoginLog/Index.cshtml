@@ -12,15 +12,27 @@
         height: 100%;
         overflow: hidden;
     }
+
+    .mini-toolbar td {
+        font-family: Verdana;
+    }
 </style>
 
-<div class="mini-toolbar" style="padding:2px;border-bottom:0;">
-    <table style="width:100%;">
+<div class="mini-toolbar" style="padding: 2px; border-bottom:0;">
+    <table style="width: 100%;">
         <tr>
             <td style="white-space: nowrap;">
-                <label style="font-family:Verdana;">名称: </label>
-                <input class="mini-textbox" id="txtUserName" maxlength="20" />
-                <a class="mini-button" iconCls="icon-search" plain="true" onclick="onSearch()">查询</a>
+                <label>UserName: </label>
+                <input class="mini-textbox" id="txtUserName" maxlength="20" />&nbsp;&nbsp;
+                <label>Ip: </label>
+                <input class="mini-textbox" id="txtIp" maxlength="20" />&nbsp;&nbsp;
+                <label>Start Time: </label>
+                <input class="mini-datepicker" format="yyyy-MM-dd HH:mm:ss" timeFormat="HH:mm:ss" allowInput="false" showOkButton="true" showTime="true"
+                       id="txtStartTime" style="width: 165px;" />&nbsp;&nbsp;
+                <label>End Time: </label>
+                <input class="mini-datepicker" format="yyyy-MM-dd HH:mm:ss" timeFormat="HH:mm:ss" allowInput="false" showOkButton="true" showTime="true"
+                       id="txtEndTime" style="width: 165px;" />
+                <a class="mini-button" iconCls="icon-search" plain="true" onclick="onSearch()">Search</a>
             </td>
         </tr>
     </table>
@@ -36,8 +48,8 @@
             <div type="indexcolumn" width="40"></div>
             <div field="UserName" width="140" headerAlign="center" allowSort="true" align="center">UserName</div>
             <div field="Ip" width="140" headerAlign="center" allowSort="true" align="center">Ip</div>
-            <div field="Time" width="160" align="center" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" align="center">Time</div>
-            <div field="Agent" width="auto" allowSort="true">Agent</div>
+            <div field="Time" width="175" align="center" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm:ss" align="center">Time</div>
+            <div field="Agent" width="auto">Agent</div>
         </div>
     </div>
 

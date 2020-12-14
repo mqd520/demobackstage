@@ -26,6 +26,7 @@ namespace DemoBackStage.Web.Service
         /// <param name="page"></param>
         /// <param name="size"></param>
         /// <param name="count"></param>
+        /// <param name="username"></param>
         /// <param name="ip"></param>
         /// <param name="startTime"></param>
         /// <param name="endTime"></param>
@@ -34,6 +35,7 @@ namespace DemoBackStage.Web.Service
         /// <param name="IsContainAdmin"></param>
         /// <returns></returns>
         public IList<UserLoginLogEntity> QueryPaging(int page, int size, out int count,
+            string username,
             string ip = null,
             DateTime? startTime = null, DateTime? endTime = null,
             string orderBy = "",
@@ -49,7 +51,7 @@ namespace DemoBackStage.Web.Service
                 sort1 = false;
             }
 
-            return repos.QueryPaging(page, size, out count, ip, startTime, endTime, orderBy, sort1, b);
+            return repos.QueryPaging(page, size, out count, username, ip, startTime, endTime, orderBy, sort1, b);
         }
     }
 }

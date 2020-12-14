@@ -10,6 +10,8 @@ using SqlSugar;
 using DemoBackStage.DAL;
 using DemoBackStage.IRepository;
 
+using DemoBackStage.Repository._02_Common;
+
 namespace DemoBackStage.Repository
 {
     /// <summary>
@@ -23,7 +25,7 @@ namespace DemoBackStage.Repository
         /// Get Db
         /// </summary>
         /// <returns></returns>
-        protected SqlSugarClient GetDb()
+        public SqlSugarClient GetDb()
         {
             return SqlSugarHelper.GetDb();
         }

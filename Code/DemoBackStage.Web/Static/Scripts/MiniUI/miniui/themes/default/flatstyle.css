@@ -9,10 +9,10 @@
 }
 .mini-mask-background
 {
-    background:#fff;
-    opacity: 0;
-    filter: alpha(opacity=0);    
-    
+    background: #ccc;
+    opacity: 0.1;
+    filter: alpha(opacity=10);    
+	-moz-opacity: 0.1;
 }
 
 .mini-popup,

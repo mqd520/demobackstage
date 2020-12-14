@@ -16,10 +16,20 @@
 
     function Query() {
         var username = mini.get("txtUserName").getValue();
+        var ip = mini.get("txtIp").getValue();
+        var startTime = mini.get("txtStartTime").getValue();
+        var endTime = mini.get("txtEndTime").getValue();
+
+        alert($("#txtStartTime").val());
+
+        console.log("startTime: %s", startTime);
+        console.log("endTime: %s", endTime);
 
         mini.get("datagrid1").load({
             UserName: username,
-            StartTime: "sdhajkshdjkahsjkd"
+            Ip: ip,
+            StartTime: startTime,
+            EndTime: endTime
         });
     }
 

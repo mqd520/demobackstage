@@ -39,7 +39,7 @@ namespace DemoBackStage.Web.Areas.System.Controllers
 
         [HttpPost]
         [ValidatorFilter(typeof(UserLoginLogQueryModelValidator), typeof(UserLoginLogQueryModel))]
-        public ActionResult List(UserLoginLogQueryModel param)
+        public ActionResult List(UserLoginLogQueryModel p)
         {
             int count = 0;
             IList<UserLoginLogEntity> ls = new List<UserLoginLogEntity>();
@@ -47,12 +47,12 @@ namespace DemoBackStage.Web.Areas.System.Controllers
             try
             {
                 var srv = GetUserLoginLogService();
-                ls = srv.QueryPaging(param.pageIndex + 1, param.pageSize, out count,
-                    param.Ip, param.StartTime, param.EndTime, param.sortField, param.sortOrder);
+                ls = srv.QueryPaging(p.pageIndex + 1, p.pageSize, out count,
+                    p.UserName, p.Ip, p.StartTime, p.EndTime, p.sortField, p.sortOrder);
             }
             catch (Exception e)
             {
-                string paramStr = JsonConvert.SerializeObject(param);
+                string paramStr = JsonConvert.SerializeObject(p);
                 CommonLogger.WriteLog(
                     ELogCategory.Fatal,
                     string.Format("UserLoginLogController.List Exception: {0}{1}{2}", e.Message, Environment.NewLine, paramStr),

@@ -510,12 +510,12 @@ body .mini-pager-num
 }
 .mini-calendar-title
 {
-    top:4px;
+    top:5px;
 }
 .mini-calendar-prev,
 .mini-calendar-next
 {
-    top:10px;
+    top:7px;
 }
 body .mini-calendar td.mini-calendar-date
 {
@@ -556,7 +556,7 @@ body .mini-calendar-menu-year
 }
 .mini-calendar-timespinner
 {
-    width:85px;
+    width:90px;
 }
 
 /* progressbar
