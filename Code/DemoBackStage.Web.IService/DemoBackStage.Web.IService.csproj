@@ -62,6 +62,10 @@
       <Project>{4690972c-f8b4-4b63-a7a6-3adeea4e4da3}</Project>
       <Name>DemoBackStage.IRepository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DemoBackStage.View\DemoBackStage.View.csproj">
+      <Project>{1480d461-f613-44c6-8b88-0c3e0f7d3bd3}</Project>
+      <Name>DemoBackStage.View</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

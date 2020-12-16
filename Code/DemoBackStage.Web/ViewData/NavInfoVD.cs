@@ -18,5 +18,7 @@ namespace DemoBackStage.Web.ViewData
         public int Level { get; set; }
 
         public int Rank { get; set; }
+
+        public int ParentId { get; set; }
     }
 }

@@ -13,29 +13,12 @@ namespace DemoBackStage.Web.Filter
     {
         public override void OnException(ExceptionContext filterContext)
         {
-            string path = filterContext.HttpContext.Request.Url.AbsolutePath;
-            string body = "";
-            var stream = filterContext.HttpContext.Request.InputStream;
-            if (stream.CanRead)
-            {
-                stream.Seek(0, SeekOrigin.Begin);
-                using (StreamReader sr = new StreamReader(stream))
-                {
-                    body = sr.ReadToEnd();
-                }
-            }
-
-            string str = string.Format("Url: {0}", path);
-            if (!string.IsNullOrEmpty(body))
-            {
-                str += string.Format("{0}Body: {1}", Environment.NewLine, body);
-            }
+            string str = MyWebTool.GetHttpRequestInfo(filterContext.HttpContext);
 
             CommonLogger.WriteLog(
                 ELogCategory.Fatal,
-                string.Format("MyCustomErrorFilterAttribute.OnException, Msg: {0}{1}{2}",
+                string.Format("MyCustomErrorFilterAttribute.OnException, Msg: {0}{1}",
                     filterContext.Exception.Message,
-                    Environment.NewLine,
                     str
                 ),
                 filterContext.Exception
@@ -46,6 +29,10 @@ namespace DemoBackStage.Web.Filter
                 filterContext.ExceptionHandled = true;
                 filterContext.HttpContext.Server.ClearError();
                 filterContext.HttpContext.Response.StatusCode = 500;
+                filterContext.Result = new ContentResult
+                {
+                    Content = "500"
+                };
             }
         }
     }

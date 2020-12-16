@@ -32,7 +32,7 @@ namespace DemoBackStage.Web.Validator
                         var reg = new Regex(pattern, RegexOptions.IgnoreCase);
                         if (!reg.IsMatch(f))
                         {
-                            c.AddFailure("sortField不可用");
+                            c.AddFailure(string.Format("sortField不可用: {0}", f));
                         }
                     }
                 });
@@ -47,7 +47,7 @@ namespace DemoBackStage.Web.Validator
                             s.Equals("desc", StringComparison.OrdinalIgnoreCase))
                             )
                         {
-                            c.AddFailure("sortOrder不可用");
+                            c.AddFailure(string.Format("sortOrder不可用: {0}", s));
                         }
                     }
                 });

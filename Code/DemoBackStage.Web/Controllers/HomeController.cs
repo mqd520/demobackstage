@@ -46,7 +46,8 @@ namespace DemoBackStage.Web.Controllers
                 Level = x.Level,
                 Name = x.Name,
                 Rank = x.Rank,
-                Url = x.Url
+                Url = x.Url,
+                ParentId = x.ParentId
             }).ToList();
 
             return new JsonResult

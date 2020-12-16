@@ -91,6 +91,9 @@
     <Compile Include="12 Http Server\HttpRequestSession.cs" />
     <Compile Include="12 Http Server\HttpServerBase.cs" />
     <Compile Include="13 WebCustomErrorHelper\MyWebCustomErrorHelper.cs" />
+    <Compile Include="14 Security\MySecurity.cs" />
+    <Compile Include="14 Security\MySQLSecurity.cs" />
+    <Compile Include="14 Security\MySecurityConfig.cs" />
     <Compile Include="99 Other\ConsoleInit.cs" />
     <Compile Include="07 CountDown\CountDown.cs" />
     <Compile Include="08 Rand and Probability\ProbabilityTool.cs" />

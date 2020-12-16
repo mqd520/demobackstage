@@ -91,12 +91,7 @@ namespace Common
         /// <summary>
         /// Recv
         /// </summary>
-        Recv = 7,
-
-        /// <summary>
-        /// Push
-        /// </summary>
-        Push = 8,
+        Security = 7,
 
         /// <summary>
         /// None

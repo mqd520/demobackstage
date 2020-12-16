@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using DemoBackStage.Entity;
+using DemoBackStage.View;
 using DemoBackStage.Def;
 
 namespace DemoBackStage.Web.IService
@@ -54,5 +55,48 @@ namespace DemoBackStage.Web.IService
         /// </summary>
         /// <returns></returns>
         IList<MenuEntity> GetLoginUserNavs();
+
+        /// <summary>
+        /// Get User Permissions
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="action"></param>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        IList<UserPermissionView> GetUserPermissions(int userid);
+
+        /// <summary>
+        /// Is Permission
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        bool IsPermission(string url, int userid, EPermissionType type);
+
+        /// <summary>
+        /// Is Permission
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="userid"></param>
+        /// <param name="types"></param>
+        /// <returns></returns>
+        bool IsPermission(string url, int userid, IEnumerable<EPermissionType> types);
+
+
+        /// <summary>
+        /// Is LoginUser Permission
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        bool IsLoginUserPermission(string url, EPermissionType type);
+
+        /// <summary>
+        /// Is LoginUser Permission
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        bool IsLoginUserPermission(string url, IEnumerable<EPermissionType> types);
     }
 }

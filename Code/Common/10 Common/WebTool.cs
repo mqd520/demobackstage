@@ -8,13 +8,13 @@ using System.IO;
 
 namespace Common
 {
-    public static class WebTool
+    public static class MyWebTool
     {
         public static string GetHttpRequestInfo(HttpContext context)
         {
             string str = "";
 
-            str += string.Format("{0}Url: {1}", Environment.NewLine, context.Request.Url.AbsolutePath);
+            str += string.Format("{0}Url: {1}", Environment.NewLine, context.Request.Url.PathAndQuery);
             str += string.Format("{0}Remote: {1}", Environment.NewLine, CommonTool.GetClientIp());
 
             string body = "";

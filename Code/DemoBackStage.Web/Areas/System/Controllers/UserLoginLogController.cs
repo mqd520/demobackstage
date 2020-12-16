@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 
 using Common;
 using AutoFacUtils;
+using DemoBackStage.Def;
 using DemoBackStage.Entity;
 using DemoBackStage.IRepository;
 using DemoBackStage.Web.IService;
@@ -32,12 +33,14 @@ namespace DemoBackStage.Web.Areas.System.Controllers
         #endregion
 
 
+        [PermissionFilter(EPermissionType.View)]
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
+        [PermissionFilter(EPermissionType.View)]
         [ValidatorFilter(typeof(UserLoginLogQueryModelValidator), typeof(UserLoginLogQueryModel))]
         public ActionResult List(UserLoginLogQueryModel p)
         {

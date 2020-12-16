@@ -1,7 +1,6 @@
 ﻿(function () {
 
     $(document).ready(function () {
-        //isLogin();
         //$("#btnCheckLogin").click(onCheckLoginClick);
 
         var menu = new Menu("#mainMenu", {
@@ -16,17 +15,17 @@
 
         new MenuTip(menu);
 
-        var ls = ConvertToNavTree([]);
+        $.ajax("/Home/Nav", {
+            dataType: "json",
+            method: "POST",
+            success: function (data) {
+                var ls = convertToMenuData(data);
+                menu.loadData(ls);
+            },
+            error: function () {
 
-        menu.loadData(ls);
-
-        //$.ajax({
-        //    //url: "data/menu.txt",
-        //    //success: function (text) {
-        //    //    var data = mini.decode(text);
-        //    //    menu.loadData(data);
-        //    //}
-        //});
+            }
+        });
 
         //toggle
         $("#toggle, .sidebar-toggle").click(function () {
@@ -65,16 +64,8 @@
         tabs.activeTab(tab);
     }
 
-    function ConvertToNavTree(ls) {
-        ls = [
-            { Id: "10", Name: "系统管理", Url: "", IsDir: true, Level: 1, Rank: 1, ParentId: 0 },
-            { Id: "11", Name: "用户管理", Url: "/System/Menu", IsDir: false, Level: 2, Rank: 1, ParentId: 10 },
-            { Id: "12", Name: "用户登录日志", Url: "/System/UserLoginLog", IsDir: false, Level: 2, Rank: 2, ParentId: 10 },
-            { Id: "13", Name: "菜单管理", Url: "/System/Menu", IsDir: false, Level: 2, Rank: 3, ParentId: 10 },
-            { Id: "14", Name: "角色管理", Url: "/System/Role", IsDir: false, Level: 2, Rank: 4, ParentId: 10 }
-        ];
-
-        var ls3 = fun1(ls, 1, 0);
+    function convertToMenuData(ls) {
+        var ls3 = convertToTreeData(ls, 1, 0);
         // console.log(ls3);
         var ls4 = convertToMiniUINavTree(ls3);
         // console.log(ls4);
@@ -82,7 +73,7 @@
         return ls4;
     }
 
-    function fun1(ls, level, parentId) {
+    function convertToTreeData(ls, level, parentId) {
         var arr = [];
 
         // 找出指定等级的菜单
@@ -98,11 +89,11 @@
             return a.Rank - b.Rank;
         });
 
-        // 找出下级节点
+        // 找出下级子节点
         for (var i = 0; i < arr.length; i++) {
             var item = arr[i];
             if (item.IsDir) {
-                var arr1 = fun1(ls, level + 1, item.Id);
+                var arr1 = convertToTreeData(ls, level + 1, item.Id);
                 item.children = arr1;
             }
         }
@@ -115,16 +106,17 @@
 
         for (var i = 0; i < arr.length; i++) {
             var item = arr[i];
+
             if (item.children) {
                 arr1.push({
-                    id: item.Id,
+                    id: item.Id.toString(),
                     text: item.Name,
                     children: convertToMiniUINavTree(item.children)
                 });
             }
             else {
                 arr1.push({
-                    id: item.Id,
+                    id: item.Id.toString(),
                     text: item.Name,
                     url: item.Url
                 });

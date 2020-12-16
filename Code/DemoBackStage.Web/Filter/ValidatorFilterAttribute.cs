@@ -53,9 +53,9 @@ namespace DemoBackStage.Web.Filter
                                         if (!result1.IsValid)
                                         {
                                             string errors = result1.Errors.ConcatElement(" ");
-                                            string str = WebTool.GetHttpRequestInfo(filterContext.HttpContext);
+                                            string str = MyWebTool.GetHttpRequestInfo(filterContext.HttpContext);
                                             CommonLogger.WriteLog(
-                                                ELogCategory.Error,
+                                                ELogCategory.Security,
                                                 string.Format("Validate Fail: {0}{1}", errors, str)
                                             );
 
@@ -76,7 +76,7 @@ namespace DemoBackStage.Web.Filter
                     }
                     catch (Exception e)
                     {
-                        string str = WebTool.GetHttpRequestInfo(filterContext.HttpContext);
+                        string str = MyWebTool.GetHttpRequestInfo(filterContext.HttpContext);
                         CommonLogger.WriteLog(
                             ELogCategory.Fatal,
                             string.Format("ValidatorFilterAttribute.OnActionExecuting Exception: {0}{1}", e.Message, str),

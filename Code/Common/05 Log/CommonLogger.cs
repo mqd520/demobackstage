@@ -19,8 +19,7 @@ namespace Common
         private static readonly ILog errorLogger = null;
         private static readonly ILog fatalLogger = null;
         private static readonly ILog sqlLogger = null;
-        private static readonly ILog recvLogger = null;
-        private static readonly ILog pushLogger = null;
+        private static readonly ILog securityLogger = null;
 
 
         static CommonLogger()
@@ -31,8 +30,7 @@ namespace Common
             errorLogger = log4net.LogManager.GetLogger("myErrorLogger");
             fatalLogger = log4net.LogManager.GetLogger("myFatalLogger");
             sqlLogger = log4net.LogManager.GetLogger("mySqlLogger");
-            recvLogger = log4net.LogManager.GetLogger("myRecvLogger");
-            pushLogger = log4net.LogManager.GetLogger("myPushLogger");
+            securityLogger = log4net.LogManager.GetLogger("mySecurityLogger");
         }
 
         #region Property
@@ -103,24 +101,13 @@ namespace Common
         }
 
         /// <summary>
-        /// Get Recv Logger
+        /// Get Security Logger
         /// </summary>
-        public static ILog RecvLogger
+        public static ILog SecurityLogger
         {
             get
             {
-                return recvLogger;
-            }
-        }
-
-        /// <summary>
-        /// Get Push Logger
-        /// </summary>
-        public static ILog PushLogger
-        {
-            get
-            {
-                return pushLogger;
+                return securityLogger;
             }
         }
         #endregion
@@ -273,48 +260,25 @@ namespace Common
                         }
                     }
                     break;
-                case ELogCategory.Recv:
-                    if (recvLogger.IsInfoEnabled)
+                case ELogCategory.Security:
+                    if (securityLogger.IsInfoEnabled)
                     {
                         if (log != null)
                         {
                             if (e != null)
                             {
-                                recvLogger.Info(log, e);
+                                securityLogger.Info(log, e);
                             }
                             else
                             {
-                                recvLogger.Info(log);
+                                securityLogger.Info(log);
                             }
                         }
                         else
                         {
                             if (e != null)
                             {
-                                recvLogger.Info(e);
-                            }
-                        }
-                    }
-                    break;
-                case ELogCategory.Push:
-                    if (pushLogger.IsInfoEnabled)
-                    {
-                        if (log != null)
-                        {
-                            if (e != null)
-                            {
-                                pushLogger.Info(log, e);
-                            }
-                            else
-                            {
-                                pushLogger.Info(log);
-                            }
-                        }
-                        else
-                        {
-                            if (e != null)
-                            {
-                                pushLogger.Info(e);
+                                securityLogger.Info(e);
                             }
                         }
                     }

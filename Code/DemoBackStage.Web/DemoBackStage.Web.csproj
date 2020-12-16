@@ -2663,8 +2663,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Def\Consts.cs" />
+    <Compile Include="Def\Enum.cs" />
     <Compile Include="Filter\LoginAuthorizeFilterAttribute.cs" />
     <Compile Include="Filter\MyCustomErrorFilterAttribute.cs" />
+    <Compile Include="Filter\MySecurityFilterAttribute.cs" />
+    <Compile Include="Filter\PermissionFilterAttribute.cs" />
     <Compile Include="Filter\ValidatorFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
