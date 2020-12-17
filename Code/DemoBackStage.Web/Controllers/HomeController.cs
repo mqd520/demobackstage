@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using AutoFacUtils;
 using DemoBackStage.Web.IService;
 
-using DemoBackStage.Web.ViewData;
+using DemoBackStage.Web.Common;
 
 namespace DemoBackStage.Web.Controllers
 {
@@ -39,16 +39,7 @@ namespace DemoBackStage.Web.Controllers
         {
             var srv = GetUserService();
             var ls = srv.GetLoginUserNavs();
-            var ls1 = ls.Select(x => new NavInfoVD
-            {
-                Id = x.Id,
-                IsDir = x.isdir > 0,
-                Level = x.Level,
-                Name = x.Name,
-                Rank = x.Rank,
-                Url = x.Url,
-                ParentId = x.ParentId
-            }).ToList();
+            var ls1 = ls.Select(x => WebCommonTool.MenuEntity2MenuVD(x)).ToList();
 
             return new JsonResult
             {

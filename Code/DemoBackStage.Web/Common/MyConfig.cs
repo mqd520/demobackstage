@@ -32,6 +32,8 @@ namespace DemoBackStage.Web.Common
             {
                 ValidationCode_Db = n3;
             }
+
+            Administrator = nvc["Administrator"];
         }
 
         /// <summary>
@@ -42,11 +44,16 @@ namespace DemoBackStage.Web.Common
         /// <summary>
         /// Get ValidationCode_Prefix
         /// </summary>
-        public static string ValidationCodePrefix { get; set; } = null;
+        public static string ValidationCodePrefix { get; private set; } = null;
 
         /// <summary>
         /// Get ValidationCode_Db
         /// </summary>
-        public static int? ValidationCode_Db { get; set; } = null;
+        public static int? ValidationCode_Db { get; private set; } = null;
+
+        /// <summary>
+        /// Get Administrator
+        /// </summary>
+        public static string Administrator { get; private set; }
     }
 }

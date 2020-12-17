@@ -28,6 +28,8 @@ namespace DemoBackStage.Web.Service
         public virtual IUserInfoRepository GetUserInfoRepository() { return AutoFacHelper.Get<IUserInfoRepository>(); }
 
         public virtual IUserLoginLogRepository GetUserLoginLogRepository() { return AutoFacHelper.Get<IUserLoginLogRepository>(); }
+
+        public virtual IMenuRepository GetMenuRepository() { return AutoFacHelper.Get<IMenuRepository>(); }
         #endregion
 
 
@@ -180,18 +182,26 @@ namespace DemoBackStage.Web.Service
 
             try
             {
-                using (var db = SqlSugarHelper.GetDb())
+                if (username.Equals(MyConfig.Administrator))
                 {
-                    var query = db.Queryable<UserInfoEntity, UserRoleEntity, RoleEntity, RoleMenuEntity, MenuEntity>((ui, ur, r, rm, m) =>
-                        new object[] {
+                    var srv = GetMenuRepository();
+                    ls = srv.QueryAll();
+                }
+                else
+                {
+                    using (var db = SqlSugarHelper.GetDb())
+                    {
+                        var query = db.Queryable<UserInfoEntity, UserRoleEntity, RoleEntity, RoleMenuEntity, MenuEntity>((ui, ur, r, rm, m) =>
+                            new object[] {
                             JoinType.Inner, ui.Id == ur.UserId,
                             JoinType.Inner, ur.RoleId == r.Id,
                             JoinType.Inner, r.Id == rm.RoleId,
                             JoinType.Inner, rm.MenuId == m.Id
-                        }
-                    ).Where((ui, ur, r, rm, m) => ui.UserName == username).Select((ui, ur, r, rm, m) => m).Distinct();
+                            }
+                        ).Where((ui, ur, r, rm, m) => ui.UserName == username).Select((ui, ur, r, rm, m) => m).Distinct();
 
-                    ls = query.ToList();
+                        ls = query.ToList();
+                    }
                 }
             }
             catch (Exception e)
@@ -316,7 +326,14 @@ namespace DemoBackStage.Web.Service
             var user = GetLoginUser();
             if (user != null)
             {
-                return IsPermission(url, user.Id, type);
+                if (user.UserName.Equals(MyConfig.Administrator))
+                {
+                    return true;
+                }
+                else
+                {
+                    return IsPermission(url, user.Id, type);
+                }
             }
 
             return false;
@@ -333,7 +350,14 @@ namespace DemoBackStage.Web.Service
             var user = GetLoginUser();
             if (user != null)
             {
-                return IsPermission(url, user.Id, types);
+                if (user.UserName.Equals(MyConfig.Administrator))
+                {
+                    return true;
+                }
+                else
+                {
+                    return IsPermission(url, user.Id, types);
+                }
             }
 
             return false;

@@ -3,5 +3,109 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<style type="text/css">
+    html, body {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
 
+    .tab1 tr {
+        height: 36px;
+    }
+
+        .tab1 tr td:nth-child(2n+1) {
+            width: 100px;
+            padding-right: 3px;
+        }
+</style>
+
+<div class="mini-toolbar" style="padding: 2px; border-bottom:0;">
+    <table style="width: 100%;">
+        <tr>
+            <td style="white-space: nowrap;">
+                <a class="mini-button" iconCls="icon-add" plain="true" onclick="onAdd()">Add</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="mini-fit">
+    <div id="treegrid1" class="mini-treegrid" style="width: 100%; height: 100%;"
+         showTreeIcon="true" treeColumn="tree1" idField="Id" parentField="ParentId" resultAsTree="false" allowMoveColumn="false" allowResizeColumn="false">
+        <div property="columns">
+            <div type="indexcolumn" width="50"></div>
+            <div name="tree1" field="Name" width="200">Name</div>
+            <div field="Level" width="100" align="center" headerAlign="center" align="center" renderer="onLevelRender">Level</div>
+            <div field="Rank" width="60" headerAlign="center" align="center">Rank</div>
+            <div field="Url" width="250" renderer="onUrlRender">Url</div>
+            <div width="auto" field="Remark">Remark</div>
+        </div>
+    </div>
+</div>
+
+@* 新增对话框 *@
+<div id="win1" class="mini-window" title="新增菜单" style="width: 400px; height: 383px;"
+     showShadow="true" showModal="true" iconCls="icon-add">
+    <table class="tab1" style="width: 100%;">
+        <tr>
+            <td align="right"><label>Parent: </label></td>
+            <td>
+                <input id="select1" class="mini-treeselect" multiSelect="false"
+                       textField="Name" valueField="Id" parentField="ParentId" checkRecursive="true"
+                       showFolderCheckBox="true" expandOnLoad="true" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><label>Level: </label></td>
+            <td>
+                <label id="lbAddMenuLevel">&nbsp;&nbsp;</label>
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><label>Is Dir: </label></td>
+            <td>
+                <input class="mini-combobox" id="selAddMenuIsDir" style="width: 55px;" textField="text" valueField="value" multiSelect="false" valueFromSelect="true" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><label>Rank: </label></td>
+            <td>
+                <input class="mini-spinner" id="txtAddMenuRank" maxlength="20" minValue="1" maxValue="100" value="1" style="width: 55px;" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><label>Name: </label></td>
+            <td>
+                <input class="mini-textbox" id="txtAddMenuName" required="true" maxlength="20" />
+            </td>
+        </tr>
+        <tr urlAttr="true">
+            <td align="right"><label>Url: </label></td>
+            <td>
+                <input class="mini-textbox" id="txtAddMenuUrl" maxlength="20" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right" valign="top"><label>Remark: </label></td>
+            <td>
+                <input class="mini-textarea" id="txtAddMenuRemark" maxlength="255" style="width: 200px;" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">&nbsp;&nbsp;</td>
+            <td>
+                <a id="btnAddOk" class="mini-button" style="width: 70px;" onclick="onAddOkClick()">Ok</a>
+                <a id="btnAddCancel" class="mini-button" style="width: 70px;" onclick="onAddCancelClick()">Cancel</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script type="text/javascript" src="~/Static/Js/Config.js"></script>
+<script type="text/javascript" src="~/Static/Js/Common/Consts.js"></script>
+<script type="text/javascript" src="~/Static/Js/Common/MiniuiTool.js"></script>
+<script type="text/javascript" src="~/Static/Js/System/Menu.js?ran=2"></script>

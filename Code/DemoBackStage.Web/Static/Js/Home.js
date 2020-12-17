@@ -19,7 +19,7 @@
             dataType: "json",
             method: "POST",
             success: function (data) {
-                var ls = convertToMenuData(data);
+                var ls = demo.ui.convertToMenuData(data);
                 menu.loadData(ls);
             },
             error: function () {
@@ -62,68 +62,6 @@
             tab = tabs.addTab(tab);
         }
         tabs.activeTab(tab);
-    }
-
-    function convertToMenuData(ls) {
-        var ls3 = convertToTreeData(ls, 1, 0);
-        // console.log(ls3);
-        var ls4 = convertToMiniUINavTree(ls3);
-        // console.log(ls4);
-
-        return ls4;
-    }
-
-    function convertToTreeData(ls, level, parentId) {
-        var arr = [];
-
-        // 找出指定等级的菜单
-        for (var i = 0; i < ls.length; i++) {
-            var item = ls[i];
-            if (item.Level == level && item.ParentId == parentId) {
-                arr.push(item);
-            }
-        }
-
-        // 排序
-        arr = arr.sort(function (a, b) {
-            return a.Rank - b.Rank;
-        });
-
-        // 找出下级子节点
-        for (var i = 0; i < arr.length; i++) {
-            var item = arr[i];
-            if (item.IsDir) {
-                var arr1 = convertToTreeData(ls, level + 1, item.Id);
-                item.children = arr1;
-            }
-        }
-
-        return arr;
-    }
-
-    function convertToMiniUINavTree(arr) {
-        var arr1 = [];
-
-        for (var i = 0; i < arr.length; i++) {
-            var item = arr[i];
-
-            if (item.children) {
-                arr1.push({
-                    id: item.Id.toString(),
-                    text: item.Name,
-                    children: convertToMiniUINavTree(item.children)
-                });
-            }
-            else {
-                arr1.push({
-                    id: item.Id.toString(),
-                    text: item.Name,
-                    url: item.Url
-                });
-            }
-        }
-
-        return arr1;
     }
 
 })();

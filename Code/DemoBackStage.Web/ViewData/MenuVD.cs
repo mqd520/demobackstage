@@ -5,7 +5,7 @@ using System.Web;
 
 namespace DemoBackStage.Web.ViewData
 {
-    public class NavInfoVD
+    public class MenuVD
     {
         public int Id { get; set; }
 
@@ -20,5 +20,7 @@ namespace DemoBackStage.Web.ViewData
         public int Rank { get; set; }
 
         public int ParentId { get; set; }
+
+        public string Remark { get; set; }
     }
 }

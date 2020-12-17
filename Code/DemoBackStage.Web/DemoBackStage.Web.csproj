@@ -173,13 +173,16 @@
     <Content Include="Static\css\Home.css" />
     <Content Include="Static\css\menu.css" />
     <Content Include="Static\css\tabs.css" />
+    <Content Include="Static\Js\Common\Consts.js" />
     <Content Include="Static\Js\Common\menu.js" />
     <Content Include="Static\Js\Common\CheckLogin.js" />
+    <Content Include="Static\Js\Common\MiniUITool.js" />
     <Content Include="Static\Js\Config.js" />
     <Content Include="Static\Js\Home.js" />
     <Content Include="Static\Js\Login.js" />
     <Content Include="Static\Js\Common\RegTool.js" />
     <Content Include="Static\Js\Common\menutip.js" />
+    <Content Include="Static\Js\System\Menu.js" />
     <Content Include="Static\Js\System\UserLoginLog.js" />
     <Content Include="Static\Scripts\jquery-1.10.2.min.js" />
     <Content Include="Static\Scripts\md5.js" />
@@ -2679,7 +2682,7 @@
     <Compile Include="Validator\System\UserLoginLogQueryModelValidator.cs" />
     <Compile Include="Validator\UserLoginInfoValidator.cs" />
     <Compile Include="ViewData\MiniUIDataGridVD.cs" />
-    <Compile Include="ViewData\NavInfoVD.cs" />
+    <Compile Include="ViewData\MenuVD.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
