@@ -27,7 +27,7 @@
     <table style="width: 100%;">
         <tr>
             <td style="white-space: nowrap;">
-                <a class="mini-button" iconCls="icon-add" plain="true" onclick="onAdd()">Add</a>
+                <a class="mini-button" iconCls="icon-add" id="btnMenuAdd" onclick="onAdd()">Add</a>&nbsp;&nbsp;
             </td>
         </tr>
     </table>
@@ -37,12 +37,13 @@
     <div id="treegrid1" class="mini-treegrid" style="width: 100%; height: 100%;"
          showTreeIcon="true" treeColumn="tree1" idField="Id" parentField="ParentId" resultAsTree="false" allowMoveColumn="false" allowResizeColumn="false">
         <div property="columns">
-            <div type="indexcolumn" width="50"></div>
+            <div type="indexcolumn" width="50" headerAlign="center">No.</div>
             <div name="tree1" field="Name" width="200">Name</div>
             <div field="Level" width="100" align="center" headerAlign="center" align="center" renderer="onLevelRender">Level</div>
             <div field="Rank" width="60" headerAlign="center" align="center">Rank</div>
             <div field="Url" width="250" renderer="onUrlRender">Url</div>
             <div width="auto" field="Remark">Remark</div>
+            <div width="120" name="operation" align="center" headerAlign="center" renderer="onOperationRender">Operate</div>
         </div>
     </div>
 </div>
@@ -107,5 +108,7 @@
 
 <script type="text/javascript" src="~/Static/Js/Config.js"></script>
 <script type="text/javascript" src="~/Static/Js/Common/Consts.js"></script>
+<script type="text/javascript" src="~/Static/Js/Common/Extend.js"></script>
 <script type="text/javascript" src="~/Static/Js/Common/MiniuiTool.js"></script>
-<script type="text/javascript" src="~/Static/Js/System/Menu.js?ran=2"></script>
+<script type="text/javascript" src="~/Static/Js/Common/RegTool.js"></script>
+<script type="text/javascript" src="~/Static/Js/System/Menu.js?ran=4"></script>

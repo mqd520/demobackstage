@@ -61,6 +61,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{21aeecdb-3f06-4e66-9322-ac796148a0d2}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DemoBackStage.DAL\DemoBackStage.DAL.csproj">
       <Project>{d2281c8b-69ea-4dde-8172-cfaa0edac678}</Project>
       <Name>DemoBackStage.DAL</Name>

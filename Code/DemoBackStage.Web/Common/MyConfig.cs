@@ -33,7 +33,24 @@ namespace DemoBackStage.Web.Common
                 ValidationCode_Db = n3;
             }
 
-            Administrator = nvc["Administrator"];
+            string str4 = nvc["Administrator"];
+            if (!string.IsNullOrEmpty(str4))
+            {
+                Administrator = str4;
+            }
+
+            bool n5 = false;
+            bool b5 = bool.TryParse(nvc["EnableWebSecurity"], out n5);
+            if (b5)
+            {
+                EnableWebSecurity = n5;
+            }
+
+            string str6 = nvc["PermissionVar"];
+            if (!string.IsNullOrEmpty(str6))
+            {
+                PermissionVar = str6;
+            }
         }
 
         /// <summary>
@@ -54,6 +71,16 @@ namespace DemoBackStage.Web.Common
         /// <summary>
         /// Get Administrator
         /// </summary>
-        public static string Administrator { get; private set; }
+        public static string Administrator { get; private set; } = "Administrator";
+
+        /// <summary>
+        /// Get EnableWebSecurity
+        /// </summary>
+        public static bool EnableWebSecurity { get; private set; } = true;
+
+        /// <summary>
+        /// Get PermissionVar
+        /// </summary>
+        public static string PermissionVar { get; private set; } = "__$$hMyPermissions";
     }
 }

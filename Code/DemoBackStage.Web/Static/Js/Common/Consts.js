@@ -14,6 +14,13 @@
         { value: 10, text: "十级菜单" }
     ];
 
+    var EPermissionType = {
+        view: 1,
+        update: 2,
+        del: 3,
+        add: 4
+    };
+
     if (window.demo === undefined) {
         window.demo = {};
     }
@@ -54,6 +61,10 @@
             }
 
             return text;
+        },
+
+        enum: {
+            EPermissionType: EPermissionType
         }
     };
 

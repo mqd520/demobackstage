@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -279,6 +280,20 @@ namespace Common
             }
 
             return ip;
+        }
+
+        /// <summary>
+        /// Get Property Name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public static string GetPropertyName<T, TKey>(Expression<Func<T, TKey>> expression)
+        {
+            MemberExpression memberExpression = expression.Body as MemberExpression;
+
+            return memberExpression.Member.Name;
         }
     }
 }

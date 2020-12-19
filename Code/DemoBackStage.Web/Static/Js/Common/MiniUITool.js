@@ -1,15 +1,28 @@
 ﻿(function () {
 
     function showMask(msg) {
+        var msg1 = msg || "加载中...";
+
         mini.mask({
             el: document.body,
             cls: 'mini-mask-loading',
-            html: msg + '...'
+            html: msg1
         });
     }
 
     function hideMask() {
         mini.unmask();
+    }
+
+    function sortMenuList(arr) {
+        var arr1 = [];
+
+        for (var i = 0; i < arr.length; i++) {
+            var item = arr[i];
+
+        }
+
+        return arr1;
     }
 
     function convertToMenuData(ls) {
@@ -88,6 +101,23 @@
         }
     }
 
+    function isHasPermission(permission) {
+        var b = false;
+
+        var arr = __$$hMyPermissions || []; // 当前页面所拥有的权限
+        for (var i = 0; i < arr.length; i++) {
+            var item = arr[i];
+
+            if (item == permission) {
+                b = true;
+
+                break;
+            }
+        }
+
+        return b;
+    }
+
 
     if (window.demo === undefined) {
         window.demo = {};
@@ -101,5 +131,6 @@
     demo.ui.convertToTreeData = convertToTreeData;
     demo.ui.convertToMiniUINavTree = convertToMiniUINavTree;
     demo.ui.bindComboBox = bindComboBox;
+    demo.ui.isHasPermission = isHasPermission;
 
 })();

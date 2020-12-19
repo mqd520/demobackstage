@@ -66,6 +66,21 @@ namespace DemoBackStage.Web.IService
         IList<UserPermissionView> GetUserPermissions(int userid);
 
         /// <summary>
+        /// Get User Permissions
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        IList<UserPermissionView> GetUserPermissions(int userid, string url);
+
+        /// <summary>
+        /// Get Login User Permissions
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        IList<UserPermissionView> GetLoginUserPermissions(string url);
+
+        /// <summary>
         /// Is Permission
         /// </summary>
         /// <param name="url"></param>

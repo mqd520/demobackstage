@@ -10,7 +10,7 @@ using FluentValidation.Results;
 
 using Common;
 
-using DemoBackStage.Web.Areas.System.Models;
+using DemoBackStage.Web.Def;
 
 namespace DemoBackStage.Web.Filter
 {
@@ -23,6 +23,8 @@ namespace DemoBackStage.Web.Filter
 
         public ValidatorFilterAttribute(Type t, Type t2)
         {
+            Order = (int)EFilterOrder.Validator;
+
             ValidatorType = t;
             ModelType = t2;
         }

@@ -22,13 +22,14 @@ namespace DemoBackStage.Web.Controllers
     [AllowAnonymous]
     public class UserController : Controller
     {
+        #region Property
         private IUserService GetUserService()
         {
             return AutoFacHelper.Get<IUserService>();
         }
+        #endregion
 
 
-        // GET: User
         public ActionResult Index()
         {
             var userService = GetUserService();

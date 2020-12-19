@@ -90,7 +90,7 @@ namespace DemoBackStage.Repository
         {
             using (var db = GetDb())
             {
-                return db.Queryable<T>().Take(10).ToList();
+                return db.Queryable<T>().ToList();
             }
         }
 

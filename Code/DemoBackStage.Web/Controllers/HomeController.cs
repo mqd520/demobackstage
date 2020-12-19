@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using Common;
 using AutoFacUtils;
 using DemoBackStage.Web.IService;
 
@@ -29,9 +30,20 @@ namespace DemoBackStage.Web.Controllers
 
         public ActionResult Logout()
         {
-            Session.Abandon();
+            try
+            {
+                Session.Abandon();
+            }
+            catch (Exception e)
+            {
+                CommonLogger.WriteLog(
+                    ELogCategory.Fatal,
+                    string.Format("HomeController.Logout Exception: {0}", e.Message),
+                    e
+                );
+            }
 
-            return Redirect("/User");
+            return View();
         }
 
         [HttpPost]
@@ -58,25 +70,6 @@ namespace DemoBackStage.Web.Controllers
                 Data = new { Success = true },
                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
             };
-        }
-
-        public ActionResult Index1()
-        {
-            Session["key1"] = Guid.NewGuid().ToString();
-
-            return View();
-        }
-
-        public ActionResult Index2()
-        {
-            return View();
-        }
-
-        public ActionResult Index3()
-        {
-            string key = Session["key1"] as string;
-
-            return View();
         }
     }
 }

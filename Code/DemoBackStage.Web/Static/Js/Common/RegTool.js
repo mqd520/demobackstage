@@ -14,6 +14,11 @@
         isCode: function (str) {
             var reg1 = /^\w{4}$/gi;
             return reg1.test(str);
+        },
+
+        isName: function (str) {
+            var reg = /^[\u4e00-\u9fa5a-zA-Z0-9]{1,20}$/gi;
+            return reg.test(str);
         }
     };
 

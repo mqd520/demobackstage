@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 
 using DemoBackStage.Web.Def;
+using DemoBackStage.Web.Common;
 using DemoBackStage.Web.Filter;
 
 namespace DemoBackStage.Web.App_Start
@@ -14,8 +15,11 @@ namespace DemoBackStage.Web.App_Start
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new MyCustomErrorFilterAttribute());
-            filters.Add(new LoginAuthorizeFilterAttribute());
-            filters.Add(new MySecurityFilterAttribute(), (int)EFilterOrder.Security);
+            if (MyConfig.EnableWebSecurity)
+            {
+                filters.Add(new MySecurityFilterAttribute(), (int)EFilterOrder.Security);
+            }
+            filters.Add(new LoginAuthorizeFilterAttribute(), (int)EFilterOrder.Login);
         }
     }
 }

@@ -239,7 +239,7 @@ namespace DemoBackStage.Web.Service
         /// <param name="action"></param>
         /// <param name="userid"></param>
         /// <returns></returns>
-        public IList<UserPermissionView> GetUserPermissions(int userid)
+        public virtual IList<UserPermissionView> GetUserPermissions(int userid)
         {
             var ls = new List<UserPermissionView>();
 
@@ -277,17 +277,46 @@ namespace DemoBackStage.Web.Service
         }
 
         /// <summary>
+        /// Get User Permissions
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public virtual IList<UserPermissionView> GetUserPermissions(int userid, string url)
+        {
+            var ls = GetUserPermissions(userid);
+
+            return ls.Where(x => url.StartsWith(x.MenuUrl ?? "")).ToList();
+        }
+
+        /// <summary>
+        /// Get Login User Permissions
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public virtual IList<UserPermissionView> GetLoginUserPermissions(string url)
+        {
+            var user = GetLoginUser();
+            if (user != null)
+            {
+                return GetUserPermissions(user.Id, url);
+            }
+
+            return new List<UserPermissionView>();
+        }
+
+        /// <summary>
         /// Is Permission
         /// </summary>
         /// <param name="url"></param>
         /// <param name="userid"></param>
         /// <returns></returns>
-        public bool IsPermission(string url, int userid, EPermissionType type)
+        public virtual bool IsPermission(string url, int userid, EPermissionType type)
         {
             var p = ((int)type).ToString();
             var ls = GetUserPermissions(userid);
 
-            return ls.Count(x => x.Permissions.Contains(p)) > 0;
+            return ls.Count(x => url.StartsWith(x.MenuUrl ?? "") && x.Permissions.Contains(p)) > 0;
         }
 
         /// <summary>
@@ -297,7 +326,7 @@ namespace DemoBackStage.Web.Service
         /// <param name="userid"></param>
         /// <param name="types"></param>
         /// <returns></returns>
-        public bool IsPermission(string url, int userid, IEnumerable<EPermissionType> types)
+        public virtual bool IsPermission(string url, int userid, IEnumerable<EPermissionType> types)
         {
             bool b = false;
 
@@ -321,7 +350,7 @@ namespace DemoBackStage.Web.Service
         /// <param name="url"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool IsLoginUserPermission(string url, EPermissionType type)
+        public virtual bool IsLoginUserPermission(string url, EPermissionType type)
         {
             var user = GetLoginUser();
             if (user != null)
@@ -345,7 +374,7 @@ namespace DemoBackStage.Web.Service
         /// <param name="url"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool IsLoginUserPermission(string url, IEnumerable<EPermissionType> types)
+        public virtual bool IsLoginUserPermission(string url, IEnumerable<EPermissionType> types)
         {
             var user = GetLoginUser();
             if (user != null)

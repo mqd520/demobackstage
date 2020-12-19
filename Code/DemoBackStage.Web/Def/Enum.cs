@@ -13,11 +13,21 @@ namespace DemoBackStage.Web.Def
         /// <summary>
         /// Validator FilterAttribute
         /// </summary>
-        Validator = 1,
+        Validator = 30,
+
+        /// <summary>
+        /// Permission
+        /// </summary>
+        Permission = 10,
+
+        /// <summary>
+        /// Login
+        /// </summary>
+        Login = 2,
 
         /// <summary>
         /// MySecurity FilterAttribute
         /// </summary>
-        Security = 100
+        Security = 1
     }
 }

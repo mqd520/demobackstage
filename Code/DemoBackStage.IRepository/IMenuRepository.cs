@@ -10,6 +10,18 @@ namespace DemoBackStage.IRepository
 {
     public interface IMenuRepository : IRepository<MenuEntity>
     {
+        /// <summary>
+        /// Query Menus By Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        IList<MenuEntity> QueryMenusById(int id);
 
+        /// <summary>
+        /// Delete All By Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        int DeleteAllById(int id);
     }
 }
