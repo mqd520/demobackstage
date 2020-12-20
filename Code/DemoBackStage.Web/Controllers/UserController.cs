@@ -8,6 +8,7 @@ using System.IO;
 using Common;
 using AutoFacUtils;
 using ValidationCodeHelper;
+using ValidationCode1;
 using DemoBackStage.Def;
 using DemoBackStage.Web.IService;
 
@@ -43,21 +44,37 @@ namespace DemoBackStage.Web.Controllers
 
         public ActionResult Code()
         {
-            var code = new DrawValidationCode();
-            code.FontMinSize = 24;
-            code.FontMaxSize = 30;
-            code.GaussianDeviation = 0;
-            code.BezierCount = 0;
-            code.IsPixel = false;
-            code.IsTwist = false;
-            code.RotationAngle = 0;
-            code.BrightnessValue = 0;
-            code.LineCount = 0;
+            //var v = new DrawValidationCode();
+            //v.FontMinSize = 24;
+            //v.FontMaxSize = 30;
+            //v.GaussianDeviation = 0;
+            //v.BezierCount = 0;
+            //v.IsPixel = false;
+            //v.IsTwist = false;
+            //v.RotationAngle = 0;
+            //v.BrightnessValue = 0;
+            //v.LineCount = 0;
 
-            MemoryStream ms = new MemoryStream();
-            code.CreateImage(ms);
-            Response.ContentType = "image/gif";
-            Response.BinaryWrite(ms.GetBuffer());
+            //using (MemoryStream ms = new MemoryStream())
+            //{
+            //    v.CreateImage(ms);
+            //    Response.ContentType = "image/gif";
+            //    Response.BinaryWrite(ms.GetBuffer());
+            //}
+
+            //string code = v.ValidationCode;
+
+
+            var v = new ValidatedCode();
+            string code = v.CreateVerifyCode();
+
+            Response.ClearContent();
+            Response.ContentType = "image/jpeg";
+            using (MemoryStream ms = new MemoryStream())
+            {
+                v.CreateImageOnPage(code, ms);
+                Response.BinaryWrite(ms.GetBuffer());
+            }
 
             HttpCookie hc = Request.Cookies[Consts.ValicationCode];
             if (hc == null)
@@ -68,7 +85,7 @@ namespace DemoBackStage.Web.Controllers
             hc.Expires = DateTime.Now.AddSeconds(MyConfig.ValidationCodeTimeout);
             Response.Cookies.Add(hc);
 
-            RedisServiceConfig.CodeRedisService.ResetCode(hc.Value, code.ValidationCode);
+            RedisServiceConfig.CodeRedisService.ResetCode(hc.Value, code);
 
             return new EmptyResult();
         }

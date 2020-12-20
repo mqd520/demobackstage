@@ -11,6 +11,7 @@
 
         mini.parse();
 
+        $(document).bind("keydown", onkeydown);
         $("#btnLogin").click(onLoginClick);
         $("#btnReset").click(onResetClick);
         $("#imgCode").click(onCodeClick);
@@ -24,6 +25,10 @@
 
         refreshCode();
     });
+
+    function onkeydown() {
+        onLoginClick();
+    }
 
     function onLoginClick() {
         var form = new mini.Form("#loginWindow");

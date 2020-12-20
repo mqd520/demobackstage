@@ -2786,6 +2786,10 @@
       <Project>{d09d4704-7c1e-42d6-b422-75aacb4e9c54}</Project>
       <Name>ServiceStack.Redis.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ValidationCode1\ValidationCode1.csproj">
+      <Project>{95057c7c-ec3c-433e-96b6-ea903c2b9726}</Project>
+      <Name>ValidationCode1</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ValidationCodeHelper\ValidationCodeHelper.csproj">
       <Project>{1fb6d1a1-30e8-409c-8405-8b9270ca2d84}</Project>
       <Name>ValidationCodeHelper</Name>
