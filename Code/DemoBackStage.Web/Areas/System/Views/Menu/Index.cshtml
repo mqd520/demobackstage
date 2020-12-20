@@ -27,6 +27,7 @@
     <table style="width: 100%;">
         <tr>
             <td style="white-space: nowrap;">
+                <a class="mini-button" iconCls="icon-reload" id="btnMenuRefresh" onclick="onRefresh()">Refresh</a>&nbsp;&nbsp;
                 <a class="mini-button" iconCls="icon-add" id="btnMenuAdd" onclick="onAdd()">Add</a>&nbsp;&nbsp;
             </td>
         </tr>
@@ -50,7 +51,7 @@
 
 @* 新增对话框 *@
 <div id="win1" class="mini-window" title="新增菜单" style="width: 400px; height: 383px;"
-     showShadow="true" showModal="true" iconCls="icon-add">
+     showShadow="true" showModal="true" iconCls="icon-node">
     <table class="tab1" style="width: 100%;">
         <tr>
             <td align="right"><label>Parent: </label></td>
@@ -99,8 +100,8 @@
         <tr>
             <td align="right">&nbsp;&nbsp;</td>
             <td>
-                <a id="btnAddOk" class="mini-button" style="width: 70px;" onclick="onAddOkClick()">Ok</a>
-                <a id="btnAddCancel" class="mini-button" style="width: 70px;" onclick="onAddCancelClick()">Cancel</a>
+                <a id="btnAddOk" class="mini-button" iconCls="icon-ok" style="width: 80px;" onclick="onAddOkClick()">Ok</a>
+                <a id="btnAddCancel" class="mini-button" iconCls="icon-cancel" style="width: 80px;" onclick="onAddCancelClick()">Cancel</a>
             </td>
         </tr>
     </table>
@@ -111,4 +112,4 @@
 <script type="text/javascript" src="~/Static/Js/Common/Extend.js"></script>
 <script type="text/javascript" src="~/Static/Js/Common/MiniuiTool.js"></script>
 <script type="text/javascript" src="~/Static/Js/Common/RegTool.js"></script>
-<script type="text/javascript" src="~/Static/Js/System/Menu.js?ran=4"></script>
+<script type="text/javascript" src="~/Static/Js/System/Menu.js?ran=5"></script>

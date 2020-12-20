@@ -56,6 +56,10 @@
         });
     }
 
+    function onRefresh() {
+        loadTree();
+    }
+
     function onUrlRender(e) {
         if (e.value == "") {
             return "--";
@@ -275,5 +279,6 @@
     window.onAddOkClick = onAddOkClick;
     window.onAddCancelClick = onAddCancelClick;
     window.onDeleteMenuClick = onDeleteMenuClick;
+    window.onRefresh = onRefresh;
 
 })();
