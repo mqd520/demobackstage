@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoleMenuView.cs" />
     <Compile Include="UserPermissionView.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -252,6 +252,35 @@ namespace DemoBackStage.Web.Service
 
             return false;
         }
+
+        /// <summary>
+        /// Query Role Menu List
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public IList<RoleMenuView> QueryRoleMenus(int roleId)
+        {
+            using (var db = SqlSugarHelper.GetDb())
+            {
+                var query = db.Queryable<RoleMenuEntity, MenuEntity>((rm, m) => new object[] { JoinType.Inner, rm.MenuId == m.Id })
+                    .Where((rm, m) => rm.RoleId == roleId)
+                    .Select((rm, m) => new RoleMenuView
+                    {
+                        RoleId = rm.RoleId,
+                        Permissions = rm.Permissions,
+                        MenuId = m.Id,
+                        MenuIsDir = m.isdir,
+                        MenuLevel = m.Level,
+                        MenuName = m.Name,
+                        MenuParentId = m.ParentId,
+                        MenuRank = m.Rank,
+                        MenuRemark = m.Remark,
+                        MenuUrl = m.Url
+                    });
+
+                return query.ToList();
+            }
+        }
     }
 
     internal class MenuCompare : IEqualityComparer<MenuEntity>

@@ -81,5 +81,12 @@ namespace DemoBackStage.Web.IService
         /// <param name="type"></param>
         /// <returns></returns>
         bool IsLoginUserPermission(string url, IEnumerable<EPermissionType> types);
+
+        /// <summary>
+        /// Query Role Menu List
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        IList<RoleMenuView> QueryRoleMenus(int roleId);
     }
 }

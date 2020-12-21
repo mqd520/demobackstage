@@ -10,6 +10,14 @@ namespace DemoBackStage.IRepository
 {
     public interface IRoleRepository : IRepository<RoleEntity>
     {
-
+        /// <summary>
+        /// Query Paging
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <param name="count"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        IList<RoleEntity> QueryPaging(int page, int size, out int count, string name);
     }
 }
