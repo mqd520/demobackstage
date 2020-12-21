@@ -35,7 +35,8 @@ namespace DemoBackStage.Web.Filter
 
             try
             {
-                var srv = AutoFacHelper.Get<IUserService>();
+                var srv = AutoFacHelper.Get<IPermissionService>();
+                var srv1 = AutoFacHelper.Get<IUserService>();
 
                 // 判断当前请求是否为请求一个Html页面
                 if (PermissionType == EPermissionType.View &&
@@ -45,7 +46,7 @@ namespace DemoBackStage.Web.Filter
                 {
                     IList<EPermissionType> ls = new List<EPermissionType>();
 
-                    if (srv.IsAdministrator())
+                    if (srv1.IsAdministrator())
                     {
                         ls = EnumTool.GetEnumList<EPermissionType>();
                         bSuccess = true;

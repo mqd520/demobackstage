@@ -2,12 +2,19 @@
     var _isHasPermission = demo.ui.isHasPermission;
     var _EPermissionType = demo.consts.enum.EPermissionType;
     var _convertToTreeData = demo.ui.convertToTreeData;
+    var _getMenuLevelText = demo.consts.getMenuLevelText;
+    var _bindComboBox = demo.ui.bindComboBox;
     var _showMask = demo.ui.showMask;
     var _hideMask = demo.ui.hideMask;
     var _title = demo.cfg.title;
+
+    var _menuTreeData = [];
     var _menuData = [];
+    var _isAdd = false;
+    var _id = 0;
 
 
+    // 页面入口
     $(document).ready(function () {
         mini.parse();
         bind();
@@ -38,9 +45,10 @@
                 _hideMask();
 
                 if (data.Success) {
+                    _menuData = data.Data;
                     var data1 = _convertToTreeData(data.Data, 1, 0);
                     //console.log(data1);
-                    _menuData = data1.dCopy();
+                    _menuTreeData = data1.dCopy();
                     mini.get("treegrid1").loadData(data1, "Id", "ParentId");
                 }
                 else {
@@ -51,6 +59,7 @@
                 _hideMask();
 
                 _menuData = [];
+                _menuTreeData = [];
                 mini.alert("查询数据失败, 请稍后再试或联系管理员", _title);
             }
         });
@@ -61,15 +70,15 @@
     }
 
     function onUrlRender(e) {
-        if (e.value == "") {
+        if (e.row.Url == undefined || e.row.Url == null || e.row.Url == "") {
             return "--";
         }
 
-        return e.value;
+        return e.row.Url;
     }
 
     function onLevelRender(e) {
-        var str = demo.consts.getMenuLevelText(e.value);
+        var str = _getMenuLevelText(e.value);
 
         return str;
     }
@@ -80,7 +89,7 @@
         var str = '';
 
         if (_isHasPermission(_EPermissionType.update)) {
-            str += '<a href="javascript: update(' + id + ');">更新</a>';
+            str += '<a href="javascript: onUpdateMenuClick(' + id + ');">更新</a>';
         }
         if (_isHasPermission(_EPermissionType.del)) {
             if (str != "") {
@@ -100,8 +109,8 @@
         var win = mini.get("win1");
 
         var arr = [];
-        for (var i = 0; i < _menuData.length; i++) {
-            var item = _menuData[i];
+        for (var i = 0; i < _menuTreeData.length; i++) {
+            var item = _menuTreeData[i];
             if (item.IsDir == true) {
                 arr.push(item);
             }
@@ -119,19 +128,20 @@
         };
         arr.unshift(root);
 
-        var obj = mini.get("select1");
-        obj.tree.loadList(arr);
-        obj.setValue("0");
+        var tree = mini.get("select1");
+        tree.tree.loadList(arr);
+        tree.setValue("0");
 
-        var text = demo.consts.getMenuLevelText(1);
+        var text = _getMenuLevelText(1);
         $("#lbAddMenuLevel").text(text);
-        obj.on("valuechanged", function (e) {
-            var level = parseInt(e.value, 10);
-            var text1 = demo.consts.getMenuLevelText(level + 1);
+        tree.on("valuechanged", function (e) {
+            var row = getSelectData(e.value);
+            var level = row.Level + 1;
+            var text1 = _getMenuLevelText(level);
             $("#lbAddMenuLevel").text(text1);
         });
 
-        demo.ui.bindComboBox("selAddMenuIsDir", 0);
+        _bindComboBox("selAddMenuIsDir", 0);
         mini.get("selAddMenuIsDir").on("valuechanged", onDirValueChanged);
         toggleDir();
 
@@ -143,7 +153,35 @@
         mini.get("txtAddMenuRemark").setValue("");
         mini.get("txtAddMenuRank").setValue("1");
 
+        _isAdd = true;
+
         win.show();
+        win.setTitle("新增菜单");
+    }
+
+    function getSelectData(value) {
+        var row = {
+            Id: 0,
+            Name: "Root",
+            Url: "",
+            IsDir: true,
+            Remark: "Root",
+            Rank: 1,
+            Level: 0,
+            ParentId: -1
+        };
+
+        var id = parseInt(value, 10);
+        for (var i = 0; i < _menuData.length; i++) {
+            var item = _menuData[i];
+            if (item.Id = id) {
+                row = item;
+
+                break;
+            }
+        }
+
+        return row;
     }
 
     function onDirValueChanged() {
@@ -177,7 +215,7 @@
         }
     }
 
-    function onAddOkClick() {
+    function onOkClick() {
         var form = new mini.Form("#win1");
         form.validate();
         if (form.isValid() == false) {
@@ -185,13 +223,23 @@
         }
 
         var parentId = parseInt(mini.get("select1").getValue(), 10);
-        var level = parseInt(mini.get("select1").getValue(), 10) + 1;
+        var row = getSelectData(mini.get("select1").getValue());
+        var level = row.Level + 1;
         var isDir = parseInt(mini.get("selAddMenuIsDir").getValue(), 10) == 1;
         var rank = parseInt(mini.get("txtAddMenuRank").getValue(), 10);
         var name = mini.get("txtAddMenuName").getValue();
         var url = mini.get("txtAddMenuUrl").getValue();
         var remark = mini.get("txtAddMenuRemark").getValue();
 
+        if (_isAdd) {
+            addMenu(parentId, level, isDir, rank, name, url, remark);
+        }
+        else {
+            updateMenu(parentId, level, isDir, rank, name, url, remark);
+        }
+    }
+
+    function addMenu(parentId, level, isDir, rank, name, url, remark) {
         mini.confirm("是否确定新增数据?", _title, function (e) {
             if (e == "ok") {
                 _showMask();
@@ -232,7 +280,7 @@
         });
     }
 
-    function onAddCancelClick() {
+    function onCancelClick() {
         var win = mini.get("win1");
         win.hide();
     }
@@ -271,14 +319,121 @@
         });
     }
 
+    function onUpdateMenuClick(id) {
+        _id = id;
+        var row = mini.get("treegrid1").findRow(function (e) {
+            if (e.Id == id) {
+                return true;
+            }
+            return false;
+        });
+        //console.log("row: %o", row);
+
+        var win = mini.get("win1");
+        //console.log("win: %o", win);        
+
+        var arr = [];
+        for (var i = 0; i < _menuTreeData.length; i++) {
+            var item = _menuTreeData[i];
+            if (item.IsDir == true) {
+                arr.push(item);
+            }
+        }
+
+        var root = {
+            Id: 0,
+            Name: "Root",
+            Url: "",
+            IsDir: true,
+            Remark: "Root",
+            Rank: 1,
+            Level: 0,
+            ParentId: -1
+        };
+        arr.unshift(root);
+
+        var tree = mini.get("select1");
+        tree.tree.loadList(arr);
+        tree.setValue(row.ParentId.toString());
+
+        var text = _getMenuLevelText(row.Level);
+        $("#lbAddMenuLevel").text(text);
+        tree.on("valuechanged", function (e) {
+            var row = getSelectData(e.value);
+            var level = row.Level + 1;
+            var text1 = _getMenuLevelText(level);
+            $("#lbAddMenuLevel").text(text1);
+        });
+
+        _bindComboBox("selAddMenuIsDir", row.IsDir == true ? 1 : 0);
+        mini.get("selAddMenuIsDir").on("valuechanged", onDirValueChanged);
+        toggleDir();
+
+        var nameObj = mini.get("txtAddMenuName");
+        nameObj.setValue(row.Name);
+        nameObj.on("validation", onNameValidation);
+
+        mini.get("txtAddMenuUrl").setValue(row.Url);
+        mini.get("txtAddMenuRemark").setValue(row.Remark);
+        mini.get("txtAddMenuRank").setValue(row.Rank.toString());
+
+        _isAdd = false;
+
+        win.show();
+        win.setTitle("更新菜单");
+    }
+
+    function updateMenu(parentId, level, isDir, rank, name, url, remark) {
+        mini.confirm("是否确定更新菜单数据?", _title, function (e) {
+            if (e == "ok") {
+                _showMask();
+
+                $.ajax("/System/Menu/Update", {
+                    dataType: "json",
+                    method: "POST",
+                    data: {
+                        Id: _id,
+                        ParentId: parentId,
+                        Level: level,
+                        IsDir: isDir,
+                        Rank: rank,
+                        Name: name,
+                        Url: url,
+                        Remark: remark
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        _hideMask();
+
+                        if (data.Success) {
+                            mini.alert("更新菜单数据成功", _title, function () {
+                                var win = mini.get("win1");
+                                win.hide();
+
+                                loadTree();
+                            });
+                        } else {
+                            mini.alert(data.Msg, _title);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        _hideMask();
+
+                        mini.alert("更新数据失败, 请稍后再试或联系管理员", _title);
+                    }
+                });
+            }
+        });
+    }
+
 
     window.onUrlRender = onUrlRender;
     window.onLevelRender = onLevelRender;
     window.onOperationRender = onOperationRender;
     window.onAdd = onAdd;
-    window.onAddOkClick = onAddOkClick;
-    window.onAddCancelClick = onAddCancelClick;
+    window.onOkClick = onOkClick;
+    window.onCancelClick = onCancelClick;
     window.onDeleteMenuClick = onDeleteMenuClick;
+    window.onUpdateMenuClick = onUpdateMenuClick;
     window.onRefresh = onRefresh;
 
 })();

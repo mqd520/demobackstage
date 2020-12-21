@@ -2657,7 +2657,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\System\Controllers\MenuController.cs" />
     <Compile Include="Areas\System\Controllers\UserLoginLogController.cs" />
-    <Compile Include="Areas\System\Models\AddMenuModel.cs" />
+    <Compile Include="Areas\System\Models\MenuModel.cs" />
     <Compile Include="Areas\System\Models\UserLoginLogQueryModel.cs" />
     <Compile Include="Areas\System\SystemAreaRegistration.cs" />
     <Compile Include="Common\MyConfig.cs" />
@@ -2681,7 +2681,7 @@
     <Compile Include="Models\UserLoginInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validator\MiniUIQueryValidator.cs" />
-    <Compile Include="Validator\System\AddMenuModelValidator.cs" />
+    <Compile Include="Validator\System\MenuModelValidator.cs" />
     <Compile Include="Validator\System\UserLoginLogQueryModelValidator.cs" />
     <Compile Include="Validator\UserLoginInfoValidator.cs" />
     <Compile Include="ViewData\MiniUIDataGridVD.cs" />

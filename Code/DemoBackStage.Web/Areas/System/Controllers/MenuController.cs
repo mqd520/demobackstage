@@ -70,8 +70,8 @@ namespace DemoBackStage.Web.Areas.System.Controllers
 
         [HttpPost]
         [PermissionFilter(EPermissionType.Add)]
-        [ValidatorFilter(typeof(AddMenuModelValidator), typeof(AddMenuModel))]
-        public ActionResult Add(AddMenuModel p)
+        [ValidatorFilter(typeof(MenuModelValidator), typeof(MenuModel))]
+        public ActionResult Add(MenuModel p)
         {
             bool b = false;
             string msg = "";
@@ -139,6 +139,54 @@ namespace DemoBackStage.Web.Areas.System.Controllers
                 CommonLogger.WriteLog(
                      ELogCategory.Fatal,
                      string.Format("MenuController.Delete Exception: {0}{1}{2}", e.Message, Environment.NewLine, str),
+                     e
+                );
+
+                b = false;
+                msg = "系统异常, 请稍后再试或联系管理员!";
+            }
+
+            return new MyJsonResult
+            {
+                Data = new { Success = b, Msg = msg },
+                JsonRequestBehavior = JsonRequestBehavior.DenyGet
+            };
+        }
+
+        [HttpPost]
+        [PermissionFilter(EPermissionType.Update)]
+        [ValidatorFilter(typeof(MenuModelValidator), typeof(MenuModel))]
+        public ActionResult Update(MenuModel p, int Id)
+        {
+            bool b = false;
+            string msg = "";
+
+            try
+            {
+                var srv = GetMenuRepository();
+                int n = srv.Update(new MenuEntity
+                {
+                    isdir = p.IsDir ? 1 : 0,
+                    Level = p.Level,
+                    Name = p.Name,
+                    ParentId = p.ParentId,
+                    Rank = p.Rank,
+                    Remark = p.Remark,
+                    Url = p.Url,
+                    Id = Id
+                });
+                b = n > 0;
+                if (!b)
+                {
+                    msg = "更新菜单数据失败, 请稍后再试或联系管理员";
+                }
+            }
+            catch (Exception e)
+            {
+                string str = string.Format("p: {0}", JsonConvert.SerializeObject(p));
+                CommonLogger.WriteLog(
+                     ELogCategory.Fatal,
+                     string.Format("MenuController.Update Exception: {0}{1}{2}", e.Message, Environment.NewLine, str),
                      e
                 );
 

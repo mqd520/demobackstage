@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="01 Config\MyConfig.cs" />
     <Compile Include="02 Common\MyCommonTool.cs" />
+    <Compile Include="PermissionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="UserLoginLogService.cs" />

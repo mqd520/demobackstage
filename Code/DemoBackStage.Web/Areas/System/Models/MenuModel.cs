@@ -5,7 +5,7 @@ using System.Web;
 
 namespace DemoBackStage.Web.Areas.System.Models
 {
-    public class AddMenuModel
+    public class MenuModel
     {
         public int ParentId { get; set; }
 

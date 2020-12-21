@@ -15,19 +15,18 @@ namespace DemoBackStage.Web.Controllers
     public class HomeController : Controller
     {
         #region Property
-        private IUserService GetUserService()
-        {
-            return AutoFacHelper.Get<IUserService>();
-        }
+        private IUserService GetUserService() { return AutoFacHelper.Get<IUserService>(); }
+
+        private IPermissionService GetPermissionService() { return AutoFacHelper.Get<IPermissionService>(); }
         #endregion
 
 
-        // GET: Home
         public ActionResult Index()
         {
             return View();
         }
 
+        [HttpPost]
         public ActionResult Logout()
         {
             try
@@ -49,8 +48,8 @@ namespace DemoBackStage.Web.Controllers
         [HttpPost]
         public ActionResult Nav()
         {
-            var srv = GetUserService();
-            var ls = srv.GetLoginUserNavs();
+            var srv = GetPermissionService();
+            var ls = srv.GetLoginUserMenus();
             var ls1 = ls.Select(x => WebCommonTool.MenuEntity2MenuVD(x)).ToList();
 
             return new JsonResult

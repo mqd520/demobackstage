@@ -12,9 +12,9 @@ using DemoBackStage.Web.Areas.System.Models;
 
 namespace DemoBackStage.Web.Validator.System
 {
-    public class AddMenuModelValidator : AbstractValidator<AddMenuModel>
+    public class MenuModelValidator : AbstractValidator<MenuModel>
     {
-        public AddMenuModelValidator()
+        public MenuModelValidator()
         {
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)
