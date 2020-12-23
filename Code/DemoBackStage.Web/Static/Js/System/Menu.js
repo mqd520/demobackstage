@@ -38,6 +38,9 @@
     function loadTree() {
         _showMask();
 
+        _menuData = [];
+        _menuTreeData = [];
+
         $.ajax("/System/Menu/List", {
             method: "POST",
             dataType: "json",
@@ -58,8 +61,6 @@
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 _hideMask();
 
-                _menuData = [];
-                _menuTreeData = [];
                 mini.alert("查询数据失败, 请稍后再试或联系管理员", _title);
             }
         });

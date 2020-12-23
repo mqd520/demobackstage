@@ -2661,6 +2661,7 @@
     <Compile Include="Areas\System\Controllers\UserLoginLogController.cs" />
     <Compile Include="Areas\System\Models\MenuModel.cs" />
     <Compile Include="Areas\System\Models\QueryRoleModel.cs" />
+    <Compile Include="Areas\System\Models\ResetPermissionModel.cs" />
     <Compile Include="Areas\System\Models\UserLoginLogQueryModel.cs" />
     <Compile Include="Areas\System\SystemAreaRegistration.cs" />
     <Compile Include="Common\MyConfig.cs" />
@@ -2686,6 +2687,7 @@
     <Compile Include="Validator\MiniUIQueryValidator.cs" />
     <Compile Include="Validator\System\MenuModelValidator.cs" />
     <Compile Include="Validator\System\QueryRoleModelValidator.cs" />
+    <Compile Include="Validator\System\ResetPermissionModelValidator.cs" />
     <Compile Include="Validator\System\UserLoginLogQueryModelValidator.cs" />
     <Compile Include="Validator\UserLoginInfoValidator.cs" />
     <Compile Include="ViewData\MiniUIDataGridVD.cs" />

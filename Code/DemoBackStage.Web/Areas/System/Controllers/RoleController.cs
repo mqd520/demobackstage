@@ -29,6 +29,8 @@ namespace DemoBackStage.Web.Areas.System.Controllers
 
         IRoleMenuRepository GetRoleMenuRepository() { return AutoFacHelper.Get<IRoleMenuRepository>(); }
 
+        IMenuRepository GetMenuRepository() { return AutoFacHelper.Get<IMenuRepository>(); }
+
         IPermissionService GetPermissionService() { return AutoFacHelper.Get<IPermissionService>(); }
         #endregion
 
@@ -78,12 +80,16 @@ namespace DemoBackStage.Web.Areas.System.Controllers
         [PermissionFilter(EPermissionType.View)]
         public ActionResult RoleMenuList(int roleId)
         {
+            bool b = false;
+            string msg = "";
             IList<RoleMenuView> ls = new List<RoleMenuView>();
 
             try
             {
                 var srv = GetPermissionService();
                 ls = srv.QueryRoleMenus(roleId);
+
+                b = true;
             }
             catch (Exception e)
             {
@@ -93,12 +99,93 @@ namespace DemoBackStage.Web.Areas.System.Controllers
                     string.Format("RoleController.RoleMenuList Exception: {0}{1}{2}", e.Message, Environment.NewLine, paramStr),
                     e
                 );
+
+                b = false;
+                msg = "系统异常, 请稍后再试或联系管理员!";
             }
 
             return new MyJsonResult
             {
                 ContentType = "application/json",
-                Data = ls,
+                Data = new { Success = b, Msg = msg, Data = ls },
+                JsonRequestBehavior = JsonRequestBehavior.DenyGet
+            };
+        }
+
+        [HttpPost]
+        [PermissionFilter(EPermissionType.View)]
+        public ActionResult MenuList()
+        {
+            bool b = false;
+            string msg = "";
+            IList<MenuVD> ls = new List<MenuVD>();
+
+            try
+            {
+                var srv = GetMenuRepository();
+                var ls1 = srv.QueryAll();
+                ls = ls1.Select(x => WebCommonTool.MenuEntity2MenuVD(x)).ToList();
+
+                b = true;
+            }
+            catch (Exception e)
+            {
+                CommonLogger.WriteLog(
+                    ELogCategory.Fatal,
+                    string.Format("RoleController.MenuList Exception: {0}", e.Message),
+                    e
+                );
+
+                b = false;
+                msg = "系统异常, 请稍后再试或联系管理员!";
+            }
+
+            return new MyJsonResult
+            {
+                ContentType = "application/json",
+                Data = new { Success = b, Msg = msg, Data = ls },
+                JsonRequestBehavior = JsonRequestBehavior.DenyGet
+            };
+        }
+
+        [HttpPost]
+        [PermissionFilter(EPermissionType.Update)]
+        [ValidatorFilter(typeof(ResetPermissionModelValidator), typeof(ResetPermissionModel))]
+        public ActionResult Update(ResetPermissionModel p)
+        {
+            bool b = false;
+            string msg = "";
+
+            try
+            {
+                var srv = GetPermissionService();
+                var dict = new Dictionary<int, string>();
+                foreach (var item in p.Items)
+                {
+                    if (!string.IsNullOrEmpty(item.Permissions))
+                    {
+                        dict.Add(item.MenuId, item.Permissions);
+                    }
+                }
+
+                b = srv.ResetPermission(p.RoleId, dict);
+            }
+            catch (Exception e)
+            {
+                CommonLogger.WriteLog(
+                    ELogCategory.Fatal,
+                    string.Format("RoleController.Update Exception: {0}", e.Message),
+                    e
+                );
+
+                b = false;
+                msg = "系统异常, 请稍后再试或联系管理员";
+            }
+
+            return new MyJsonResult
+            {
+                ContentType = "application/json",
+                Data = new { Success = b, Msg = msg },
                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
             };
         }

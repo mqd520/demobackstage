@@ -25,36 +25,49 @@
         return arr1;
     }
 
-    function convertToMenuData(ls) {
+    function convertToMenuData(ls, idField, levelField, parentField, rankField, isDirField, nameField) {
+        var idField1 = idField || "Id";
+        var levelField1 = levelField || "Level";
+        var parentField1 = parentField || "ParentId";
+        var rankField1 = rankField || "Rank";
+        var isDirField1 = isDirField || "IsDir";
+        var nameField1 = nameField || "Name";
+
         var ls3 = convertToTreeData(ls, 1, 0);
         // console.log(ls3);
-        var ls4 = convertToMiniUINavTree(ls3);
+        var ls4 = convertToMiniUINavTree(ls3, idField1, nameField1);
         // console.log(ls4);
 
         return ls4;
     }
 
-    function convertToTreeData(ls, level, parentId) {
+    function convertToTreeData(ls, level, parentId, idField, levelField, parentField, rankField, isDirField) {
         var arr = [];
+
+        var idField1 = idField || "Id";
+        var levelField1 = levelField || "Level";
+        var parentField1 = parentField || "ParentId";
+        var rankField1 = rankField || "Rank";
+        var isDirField1 = isDirField || "IsDir";
 
         // 找出指定等级的菜单
         for (var i = 0; i < ls.length; i++) {
             var item = ls[i];
-            if (item.Level == level && item.ParentId == parentId) {
+            if (item[levelField1] == level && item[parentField1] == parentId) {
                 arr.push(item);
             }
         }
 
         // 排序
         arr = arr.sort(function (a, b) {
-            return a.Rank - b.Rank;
+            return a[rankField1] - b[rankField1];
         });
 
         // 找出下级子节点
         for (var i = 0; i < arr.length; i++) {
             var item = arr[i];
-            if (item.IsDir) {
-                var arr1 = convertToTreeData(ls, level + 1, item.Id);
+            if (item[isDirField1]) {
+                var arr1 = convertToTreeData(ls, level + 1, item[idField1], idField1, levelField1, parentField1, rankField1);
                 item.children = arr1;
             }
         }
@@ -62,23 +75,26 @@
         return arr;
     }
 
-    function convertToMiniUINavTree(arr) {
+    function convertToMiniUINavTree(arr, idField, nameField) {
         var arr1 = [];
+
+        var idField1 = idField || "Id";
+        var nameField1 = nameField || "Name";
 
         for (var i = 0; i < arr.length; i++) {
             var item = arr[i];
 
             if (item.children) {
                 arr1.push({
-                    id: item.Id.toString(),
-                    text: item.Name,
+                    id: item[idField1].toString(),
+                    text: item[nameField1],
                     children: convertToMiniUINavTree(item.children)
                 });
             }
             else {
                 arr1.push({
-                    id: item.Id.toString(),
-                    text: item.Name,
+                    id: item[idField1].toString(),
+                    text: item[nameField1],
                     url: item.Url
                 });
             }

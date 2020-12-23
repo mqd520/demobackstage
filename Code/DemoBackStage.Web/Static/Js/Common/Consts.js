@@ -20,6 +20,12 @@
         del: 3,
         add: 4
     };
+    var _permissionTypeInfo = {
+        view: "查看",
+        update: "更新",
+        del: "删除",
+        add: "增加"
+    };
 
     if (window.demo === undefined) {
         window.demo = {};
@@ -61,6 +67,36 @@
             }
 
             return text;
+        },
+
+        getPermissionTypeInfo: function (permission) {
+            var name = "";
+
+            for (var key in EPermissionType) {
+                if (EPermissionType[key] == permission) {
+                    for (var key1 in _permissionTypeInfo) {
+                        if (key == key1) {
+                            name = _permissionTypeInfo[key1];
+
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            return name;
+        },
+
+        getPermissionTypeArr: function () {
+            var arr = [];
+
+            for (var key in EPermissionType) {
+                arr.push(EPermissionType[key]);
+            }
+
+            return arr;
         },
 
         enum: {

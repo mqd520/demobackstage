@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 using SqlSugar;
 
@@ -280,6 +281,67 @@ namespace DemoBackStage.Web.Service
 
                 return query.ToList();
             }
+        }
+
+        /// <summary>
+        /// Reset Permission
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="dict"></param>
+        public bool ResetPermission(int roleId, IDictionary<int, string> dict)
+        {
+            bool b = false;
+
+            using (var db = SqlSugarHelper.GetDb())
+            {
+                var table = db.EntityMaintenance.GetTableName<RoleMenuEntity>();
+                string properName = CommonTool.GetPropertyName<RoleMenuEntity, int>(x => x.RoleId);
+                string fieldName = db.EntityMaintenance.GetDbColumnName<RoleMenuEntity>(properName);
+                string properName2 = CommonTool.GetPropertyName<RoleMenuEntity, int>(x => x.MenuId);
+                string fieldName2 = db.EntityMaintenance.GetDbColumnName<RoleMenuEntity>(properName2);
+                string properName3 = CommonTool.GetPropertyName<RoleMenuEntity, string>(x => x.Permissions);
+                string fieldName3 = db.EntityMaintenance.GetDbColumnName<RoleMenuEntity>(properName3);
+
+                string sql1 = string.Format("delete from {0} where {1} = {2};", table, fieldName, roleId);
+
+                StringBuilder sb = new StringBuilder();
+                SugarParameter[] paramArr = new SugarParameter[dict.Count];
+                int index = 0;
+                foreach (var item in dict)
+                {
+                    if (!string.IsNullOrEmpty(item.Value))
+                    {
+                        sb.Append(string.Format("insert into {0}({1}, {2}, {3}) values({4}, {5}, @permissons_{6});",
+                            table, fieldName, fieldName2, fieldName3, roleId, item.Key, index + 1));
+                        paramArr[index] = new SugarParameter(string.Format("@permissons_{0}", index + 1), item.Value, System.Data.DbType.String, ParameterDirection.Input, 125);
+                        index++;
+                    }
+                }
+
+                string sqls = sql1 + sb.ToString();
+
+                db.BeginTran();
+                try
+                {
+                    db.Ado.ExecuteCommand(sqls, paramArr);
+                    db.CommitTran();
+
+                    b = true;
+                }
+                catch (Exception e)
+                {
+                    db.RollbackTran();
+                    CommonLogger.WriteLog(
+                        ELogCategory.Error,
+                        string.Format("PermissionService.ResetPermission Trans Exception: {0}", e.Message),
+                        e
+                    );
+
+                    b = false;
+                }
+            }
+
+            return b;
         }
     }
 

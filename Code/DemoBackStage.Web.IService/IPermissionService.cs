@@ -88,5 +88,12 @@ namespace DemoBackStage.Web.IService
         /// <param name="roleId"></param>
         /// <returns></returns>
         IList<RoleMenuView> QueryRoleMenus(int roleId);
+
+        /// <summary>
+        /// Reset Permission
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="dict"></param>
+        bool ResetPermission(int roleId, IDictionary<int, string> dict);
     }
 }
