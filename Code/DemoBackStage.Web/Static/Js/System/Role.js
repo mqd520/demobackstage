@@ -211,13 +211,106 @@
             }
 
             var name = row.Id.toString() + "_" + item.permission;
-            str += ' <input type="checkbox" ' + checked + ' MenuId="' + row.Id + '" MenuPermission="' + item.permission + '" />' + _getPermissionTypeInfo(item.permission);
+            var onChange = 'onchange="onPermissionChanged(this);"';
+            str += ' <input type="checkbox" ' + checked + ' MenuId="' + row.Id + '" MenuPermission="' + item.permission + '" ' + onChange + ' />' + _getPermissionTypeInfo(item.permission);
         }
 
         return str;
     }
 
+    function getChildrenById(id, ls) {
+        var arr = [];
+
+        for (var i = 0; i < ls.length; i++) {
+            var item = ls[i];
+
+            if (item.ParentId == id) {
+                arr.push(item);
+                if (item.IsDir == true) {
+                    arr.push(getChildrenById(item.Id, ls));
+                }
+            }
+        }
+
+        return arr;
+    }
+
+    function getParentById(parentId, ls, arr) {
+        for (var i = 0; i < ls.length; i++) {
+            var item = ls[i];
+
+            if (item.Id == parentId) {
+                if (item.IsDir == true) {
+                    arr.push(item);
+                    getParentById(item.ParentId, ls, arr);
+
+                    break;
+                }
+            }
+        }
+    }
+
+    function onPermissionChanged(e) {
+        var tree = mini.get("treegrid2");
+        var ls = tree.getList();
+
+        //console.log("onViewChanged.e: %o", e);
+        var e1 = $(e);
+        if (e1.prop("checked") == false) {
+            if (e1.attr("MenuPermission") == _EPermissionType.view.toString()) {
+                var id = parseInt(e1.attr("MenuId"), 10);
+                var row = tree.findRow(function (row) {
+                    if (row.Id == id) {
+                        return true;
+                    }
+
+                    return false;
+                });
+                //console.log("onViewChanged.row: %o", row);
+                if (row.IsDir == true) {
+                    var arr = getChildrenById(row.Id, ls);
+                    //console.log("onViewChanged.arr: %o", arr);
+                    for (var j = 0; j < arr.length; j++) {
+                        var item = arr[j];
+
+                        var cbs = $("#treegrid2 input:checkbox[MenuId=" + item.Id + "]");
+                        cbs.removeProp("checked");
+                    }
+                } else {
+                    var cbs = $("#treegrid2 input:checkbox[MenuId=" + id + "][MenuPermission!=" + _EPermissionType.view + "]");
+                    cbs.removeProp("checked");
+                }
+            }
+        } else {
+            var id = parseInt(e1.attr("MenuId"), 10);
+            if (e1.attr("MenuPermission") != _EPermissionType.view.toString()) {
+                var cb = $("#treegrid2 input:checkbox[MenuId=" + id + "][MenuPermission=" + _EPermissionType.view + "]");
+                cb.prop("checked", "checked");
+            }
+
+            var row = tree.findRow(function (row) {
+                if (row.Id == id) {
+                    return true;
+                }
+
+                return false;
+            });
+            //console.log("onViewChanged.row: %o", row);
+            var arr = [];
+            getParentById(row.ParentId, ls, arr);
+            for (var i = 0; i < arr.length; i++) {
+                var item = arr[i];
+
+                var cbs = $("#treegrid2 input:checkbox[MenuId=" + item.Id + "]");
+                cbs.prop("checked", "checked");
+            }
+        }
+    }
+
     function onResetOkClick() {
+        return;
+
+
         var items = [];
         var tree = mini.get("treegrid2");
         var ls = tree.getList();
@@ -289,5 +382,6 @@
     window.onResetClick = onResetClick;
     window.onPermissions1Render = onPermissions1Render;
     window.onResetOkClick = onResetOkClick;
+    window.onPermissionChanged = onPermissionChanged;
 
 })();
