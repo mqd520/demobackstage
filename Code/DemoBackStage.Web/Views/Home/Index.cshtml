@@ -3,6 +3,27 @@
     ViewBag.Title = "Index";
 }
 
+<style type="text/css">
+    .tab1 tr {
+        height: 36px;
+    }
+
+        .tab1 tr td:nth-child(odd) {
+            width: 100px;
+            padding-right: 3px;
+        }
+
+    #win2 span:nth-child(odd) {
+        font-size: 16px;
+    }
+
+    /*#win2 table span:nth-child(2) {
+        font-size: 20px;
+        font-weight: bolder;
+    }*/
+</style>
+
+
 <div class="navbar" style="margin-bottom: 0px;">
     <div class="navbar-header">
         <div class="navbar-brand">Demo</div>
@@ -10,25 +31,23 @@
     </div>
     <ul class="nav navbar-nav">
         <li><a id="toggle"><span class="fa fa-bars"></span></a></li>
-        <li class="icontop"><a href="#"><i class="fa  fa-cog"></i><span>系统设置</span></a></li>
+        @*<li class="icontop"><a href="#"><i class="fa  fa-cog"></i><span>系统设置</span></a></li>*@
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
+        <li><a href="javascript: showResetPwdDialog(this);"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
         <li><a href="/Home/Logout"><i class="fa fa-paper-plane"></i> 退出登录</a></li>
         <li class="dropdown">
             <a class="dropdown-toggle userinfo">
                 <img class="user-img" src="~/Static/images/user.png" />个人资料<i class="fa fa-angle-down"></i>
             </a>
             <ul class="dropdown-menu pull-right">
-                <li><a href="#"><i class="fa fa-eye "></i> 用户信息</a></li>
-                <li><a href="#"><i class="fa fa-user"></i> 退出登录</a></li>
+                <li><a href="javascript: showUserInfoDialog(this);"><i class="fa fa-eye "></i> 用户信息</a></li>
             </ul>
         </li>
     </ul>
 </div>
 
 <div class="container">
-
     <div class="sidebar">
         <div class="sidebar-toggle"><i class="fa fa-fw fa-dedent"></i></div>
         <div id="mainMenu"></div>
@@ -37,8 +56,8 @@
     <div class="main">
         <div id="mainTabs" class="mini-tabs main-tabs" activeIndex="0" style="height:100%;" plain="false"
              buttons="#tabsButtons" arrowPosition="side">
-            <div name="index" iconCls="fa-android" title="控制台">
-                Demo BackStage Admin Site
+            <div name="index" title="欢迎界面">
+                欢迎进入Demo BackStage Admin Site
             </div>
         </div>
         <div id="tabsButtons">
@@ -48,8 +67,55 @@
             <a class="tabsBtn"><i class="fa fa-arrows-alt"></i></a>
         </div>
     </div>
-
 </div>
+
+<div id="win1" class="mini-window" title="重设密码" style="width: 380px; height: 215px;"
+     showShadow="true" showModal="true" iconCls="icon-node">
+    <table class="tab1" style="width: 100%;">
+        <tr>
+            <td align="right"><label>原密码:</label></td>
+            <td><input type="text" class="mini-password" required="true" id="txtOldPwd" maxlength="20" /></td>
+        </tr>
+        <tr>
+            <td align="right"><label>新密码:</label></td>
+            <td><input type="text" class="mini-password" required="true" id="txtNewPwd" maxlength="20" /></td>
+        </tr>
+        <tr>
+            <td align="right"><label>确认新密码:</label></td>
+            <td><input type="text" class="mini-password" required="true" id="txtNewPwd1" maxlength="20" /></td>
+        </tr>
+        <tr>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+                <a id="btnAddOk" class="mini-button" iconCls="icon-ok" style="width: 80px;" onclick="onOkClick()">Ok</a>
+                <a id="btnAddCancel" class="mini-button" iconCls="icon-cancel" style="width: 80px;" onclick="onCancelClick()">Cancel</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="win2" class="mini-window" title="查看用户个人信息" style="width: 380px; height: 215px;"
+     showShadow="true" showModal="true" iconCls="icon-node">
+    <table class="tab1" style="width: 100%;">
+        <tr>
+            <td align="right"><span>UserName:</span></td>
+            <td><span id="lbUserName"></span></td>
+        </tr>
+        <tr>
+            <td align="right"><span>NickName:</span></td>
+            <td><span id="lbNickName"></span></td>
+        </tr>
+        <tr>
+            <td align="right"><span>Ip:</span></td>
+            <td><span id="lbIp"></span></td>
+        </tr>
+        <tr>
+            <td align="right"><span>Time:</span></td>
+            <td><span id="lbTime"></span></td>
+        </tr>
+    </table>
+</div>
+
 
 <link type="text/css" rel="stylesheet" href="~/Static/Scripts/scrollbar/jquery.mCustomScrollbar.css" />
 <script type="text/javascript" src="~/Static/Scripts/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
@@ -62,6 +128,10 @@
 <link type="text/css" rel="stylesheet" href="~/Static/css/frame.css" />
 <link type="text/css" rel="stylesheet" href="~/Static/css/Home.css" />
 
+<script type="text/javascript" src="~/Static/Scripts/md5.js"></script>
+<script type="text/javascript" src="~/Static/Js/Config.js"></script>
+<script type="text/javascript" src="~/Static/Js/Common/Consts.js"></script>
+<script type="text/javascript" src="~/Static/Js/Common/Extend.js"></script>
 <script type="text/javascript" src="~/Static/Js/Common/RegTool.js"></script>
 <script type="text/javascript" src="~/Static/Js/Common/CheckLogin.js"></script>
 <script type="text/javascript" src="~/Static/Js/Common/MiniuiTool.js"></script>

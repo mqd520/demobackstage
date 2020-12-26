@@ -7,8 +7,12 @@ using System.Web.Mvc;
 using Common;
 using AutoFacUtils;
 using DemoBackStage.Web.IService;
+using DemoBackStage.IRepository;
 
 using DemoBackStage.Web.Common;
+using DemoBackStage.Web.Models;
+using DemoBackStage.Web.Validator;
+using DemoBackStage.Web.Filter;
 
 namespace DemoBackStage.Web.Controllers
 {
@@ -18,6 +22,8 @@ namespace DemoBackStage.Web.Controllers
         private IUserService GetUserService() { return AutoFacHelper.Get<IUserService>(); }
 
         private IPermissionService GetPermissionService() { return AutoFacHelper.Get<IPermissionService>(); }
+
+        private IUserInfoRepository GetUserInfoRepository() { return AutoFacHelper.Get<IUserInfoRepository>(); }
         #endregion
 
 
@@ -67,6 +73,60 @@ namespace DemoBackStage.Web.Controllers
                 ContentType = "application/json",
                 Data = new { Success = true },
                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
+            };
+        }
+
+        [HttpPost]
+        [ValidatorFilter(typeof(ResetPwdModelValidator), typeof(ResetPwdModel))]
+        public ActionResult ResetPwd(ResetPwdModel p)
+        {
+            bool b = false;
+            string msg = "";
+
+            try
+            {
+                var srv = GetUserService();
+                var user = srv.GetLoginUser();
+                if (user != null)
+                {
+                    var srv1 = GetUserInfoRepository();
+                    b = srv1.ResetPwd(user.UserName, p.OldPwd, p.NewPwd);
+                }
+
+                if (!b)
+                {
+                    msg = "用户名或密码不正确!";
+                }
+            }
+            catch (Exception e)
+            {
+                CommonLogger.WriteLog(
+                    ELogCategory.Fatal,
+                    string.Format("HomeController.ResetPwd Exception: {0}", e.Message),
+                    e
+                );
+
+                b = false;
+                msg = "系统异常, 请稍后再试或联系管理员!";
+            }
+
+            return new MyJsonResult
+            {
+                JsonRequestBehavior = JsonRequestBehavior.DenyGet,
+                Data = new { Success = b, Msg = msg }
+            };
+        }
+
+        [HttpPost]
+        public ActionResult UserInfo()
+        {
+            var srv = GetUserService();
+            var entity = srv.GetLoginUser();
+
+            return new MyJsonResult
+            {
+                JsonRequestBehavior = JsonRequestBehavior.DenyGet,
+                Data = entity
             };
         }
     }

@@ -8,6 +8,10 @@ using System.Reflection;
 
 using SqlSugar;
 
+using Common;
+
+using DemoBackStage.Repository._01_Config;
+
 namespace DemoBackStage.Repository._02_Common
 {
     public static class MyCommonTool
@@ -28,6 +32,11 @@ namespace DemoBackStage.Repository._02_Common
             }
 
             return query;
+        }
+
+        public static string EncryptPwd(string pwd)
+        {
+            return Md5EncryptionTool.Encrypt(pwd + MyConfig.Md5Key);
         }
     }
 }

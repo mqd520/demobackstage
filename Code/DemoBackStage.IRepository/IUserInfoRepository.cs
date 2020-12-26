@@ -32,5 +32,14 @@ namespace DemoBackStage.IRepository
         /// <returns></returns>
         IList<UserInfoEntity> QueryPaging(int page, int size, out int count,
             string username);
+
+        /// <summary>
+        /// Reset Pwd
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="oldPwd"></param>
+        /// <param name="newPwd"></param>
+        /// <returns></returns>
+        bool ResetPwd(string username, string oldPwd, string newPwd);
     }
 }

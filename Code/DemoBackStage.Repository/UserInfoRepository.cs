@@ -5,10 +5,14 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
+using SqlSugar;
+
+using Common;
 using DemoBackStage.Entity;
 using DemoBackStage.IRepository;
 
 using DemoBackStage.Repository._01_Config;
+using DemoBackStage.Repository._02_Common;
 
 namespace DemoBackStage.Repository
 {
@@ -56,6 +60,38 @@ namespace DemoBackStage.Repository
             }
 
             return QueryPaging(page, size, out count, ls);
+        }
+
+        /// <summary>
+        /// Reset Pwd
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="oldPwd"></param>
+        /// <param name="newPwd"></param>
+        /// <returns></returns>
+        public bool ResetPwd(string username, string oldPwd, string newPwd)
+        {
+            oldPwd = MyCommonTool.EncryptPwd(oldPwd);
+            newPwd = MyCommonTool.EncryptPwd(newPwd);
+
+            using (var db = GetDb())
+            {
+                string table = db.EntityMaintenance.GetTableName<UserInfoEntity>();
+                string property1 = CommonTool.GetPropertyName<UserInfoEntity, string>(x => x.UserName);
+                string field1 = db.EntityMaintenance.GetDbColumnName<UserInfoEntity>(property1);
+                string property2 = CommonTool.GetPropertyName<UserInfoEntity, string>(x => x.Pwd);
+                string field2 = db.EntityMaintenance.GetDbColumnName<UserInfoEntity>(property2);
+
+                string sql = string.Format("update {0} set {1} = @NewPwd where {2} = @UserName and {1} = @OldPwd", table, field2, field1);
+                SugarParameter[] paramArr = new SugarParameter[3];
+                paramArr[0] = new SugarParameter("@UserName", username, System.Data.DbType.String, System.Data.ParameterDirection.Input, 20);
+                paramArr[1] = new SugarParameter("@OldPwd", oldPwd, System.Data.DbType.String, System.Data.ParameterDirection.Input, 20);
+                paramArr[2] = new SugarParameter("@NewPwd", newPwd, System.Data.DbType.String, System.Data.ParameterDirection.Input, 20);
+
+                int n = db.Ado.ExecuteCommand(sql, paramArr);
+
+                return n > 0;
+            }
         }
     }
 }
