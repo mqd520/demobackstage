@@ -186,6 +186,7 @@
     <Content Include="Static\Js\System\Menu.js" />
     <Content Include="Static\Js\System\Role.js" />
     <Content Include="Static\Js\System\UserLoginLog.js" />
+    <Content Include="Static\Js\System\UserRole.js" />
     <Content Include="Static\Scripts\jquery-1.10.2.min.js" />
     <Content Include="Static\Scripts\md5.js" />
     <Content Include="Static\Scripts\MiniUI\boot.js" />
@@ -2659,9 +2660,13 @@
     <Compile Include="Areas\System\Controllers\MenuController.cs" />
     <Compile Include="Areas\System\Controllers\RoleController.cs" />
     <Compile Include="Areas\System\Controllers\UserLoginLogController.cs" />
+    <Compile Include="Areas\System\Controllers\UserRoleController.cs" />
     <Compile Include="Areas\System\Models\MenuModel.cs" />
     <Compile Include="Areas\System\Models\QueryRoleModel.cs" />
+    <Compile Include="Areas\System\Models\QueryUserInfoModel.cs" />
+    <Compile Include="Areas\System\Models\QueryUserRoleModel.cs" />
     <Compile Include="Areas\System\Models\ResetPermissionModel.cs" />
+    <Compile Include="Areas\System\Models\ResetUserRoleModel.cs" />
     <Compile Include="Areas\System\Models\UserLoginLogQueryModel.cs" />
     <Compile Include="Areas\System\SystemAreaRegistration.cs" />
     <Compile Include="Common\MyConfig.cs" />
@@ -2687,7 +2692,10 @@
     <Compile Include="Validator\MiniUIQueryValidator.cs" />
     <Compile Include="Validator\System\MenuModelValidator.cs" />
     <Compile Include="Validator\System\QueryRoleModelValidator.cs" />
+    <Compile Include="Validator\System\QueryUserInfoModelValidator.cs" />
+    <Compile Include="Validator\System\QueryUserRoleModelValidator.cs" />
     <Compile Include="Validator\System\ResetPermissionModelValidator.cs" />
+    <Compile Include="Validator\System\ResetUserRoleModelValidator.cs" />
     <Compile Include="Validator\System\UserLoginLogQueryModelValidator.cs" />
     <Compile Include="Validator\UserLoginInfoValidator.cs" />
     <Compile Include="ViewData\MiniUIDataGridVD.cs" />
@@ -2729,6 +2737,7 @@
     <Content Include="Areas\System\Views\UserLoginLog\Index.cshtml" />
     <Content Include="Views\Home\Logout.cshtml" />
     <Content Include="Areas\System\Views\Role\Index.cshtml" />
+    <Content Include="Areas\System\Views\UserRole\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -15,8 +15,16 @@
     // 页面入口
     $(document).ready(function () {
         mini.parse();
+        initPermission();
         loadDataGrid();
     });
+
+    function initPermission() {
+        if (!_isHasPermission(_EPermissionType.update)) {
+            $("#btnEdit").remove();
+            $("#btnEdit1").remove();
+        }
+    }
 
     function loadDataGrid() {
         var name = mini.get("txtName").getValue();
@@ -122,7 +130,7 @@
     }
 
     function onRefreshClick() {
-
+        loadTreeGrid1();
     }
 
     function onResetClick() {
@@ -308,9 +316,6 @@
     }
 
     function onResetOkClick() {
-        return;
-
-
         var items = [];
         var tree = mini.get("treegrid2");
         var ls = tree.getList();

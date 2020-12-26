@@ -90,10 +90,25 @@ namespace DemoBackStage.Web.IService
         IList<RoleMenuView> QueryRoleMenus(int roleId);
 
         /// <summary>
+        /// Query By UserId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IList<RoleEntity> QueryByUserId(int userId);
+
+        /// <summary>
         /// Reset Permission
         /// </summary>
         /// <param name="roleId"></param>
         /// <param name="dict"></param>
         bool ResetPermission(int roleId, IDictionary<int, string> dict);
+
+        /// <summary>
+        /// Reset UserRole
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="lsRoleId"></param>
+        /// <returns></returns>
+        bool ResetUserRole(int userId, IEnumerable<int> lsRoleId);
     }
 }

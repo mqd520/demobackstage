@@ -11,6 +11,14 @@ namespace DemoBackStage.Repository
 {
     public class UserRoleRepository : Repository<UserRoleEntity>, IUserRoleRepository
     {
-
+        /// <summary>
+        /// Query By User Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public IList<UserRoleEntity> QueryByUserId(int Id)
+        {
+            return QueryAll(x => x.UserId == Id);
+        }
     }
 }

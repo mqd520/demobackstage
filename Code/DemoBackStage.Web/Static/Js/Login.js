@@ -26,8 +26,12 @@
         refreshCode();
     });
 
-    function onkeydown() {
-        onLoginClick();
+    function onkeydown(e) {
+        var e1 = window.event || e;
+
+        if (e1.keyCode == 13) {
+            onLoginClick();
+        }
     }
 
     function onLoginClick() {
@@ -84,7 +88,7 @@
     function onUserNameValidation(e) {
         if (e.isValid) {
             if (!demo.reg.isUserName(e.value)) {
-                mini.alert("用户名格式不正确！");
+                //mini.alert("用户名格式不正确！");
                 e.isValid = false;
             }
         }
@@ -93,7 +97,7 @@
     function onPwdValidation(e) {
         if (e.isValid) {
             if (!demo.reg.isPwd(e.value)) {
-                mini.alert("密码格式不正确！");
+                //mini.alert("密码格式不正确！");
                 e.isValid = false;
             }
         }
@@ -102,7 +106,7 @@
     function onCodeValidation(e) {
         if (e.isValid) {
             if (!demo.reg.isCode(e.value)) {
-                mini.alert("验证码格式不正确！");
+                //mini.alert("验证码格式不正确！");
                 e.isValid = false;
             }
         }

@@ -26,7 +26,6 @@ namespace DemoBackStage.Web.Controllers
             return View();
         }
 
-        [HttpPost]
         public ActionResult Logout()
         {
             try

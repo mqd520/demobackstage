@@ -343,6 +343,76 @@ namespace DemoBackStage.Web.Service
 
             return b;
         }
+
+        /// <summary>
+        /// Query By UserId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public IList<RoleEntity> QueryByUserId(int userId)
+        {
+            using (var db = SqlSugarHelper.GetDb())
+            {
+                var query = db.Queryable<UserRoleEntity, RoleEntity>((ur, r) =>
+                    new object[] {
+                        JoinType.Inner, ur.RoleId == r.Id
+                    }
+                ).Where((ur, r) => ur.UserId == userId).Select((ur, r) => r);
+
+                return query.ToList();
+            }
+        }
+
+        /// <summary>
+        /// Reset UserRole
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="lsRoleId"></param>
+        /// <returns></returns>
+        public bool ResetUserRole(int userId, IEnumerable<int> lsRoleId)
+        {
+            bool b = false;
+
+            using (var db = SqlSugarHelper.GetDb())
+            {
+                string table = db.EntityMaintenance.GetTableName<UserRoleEntity>();
+                string property1 = CommonTool.GetPropertyName<UserRoleEntity, int>(x => x.UserId);
+                string field1 = db.EntityMaintenance.GetDbColumnName<UserRoleEntity>(property1);
+                string property2 = CommonTool.GetPropertyName<UserRoleEntity, int>(x => x.RoleId);
+                string field2 = db.EntityMaintenance.GetDbColumnName<UserRoleEntity>(property2);
+
+                string sql1 = string.Format("delete from {0} where {1} = {2};", table, field1, userId);
+                StringBuilder sb = new StringBuilder();
+                if (lsRoleId != null)
+                {
+                    foreach (var item in lsRoleId)
+                    {
+                        sb.Append(string.Format("insert into {0}({1}, {2}) values({3}, {4});", table, field1, field2, userId, item));
+                    }
+                }
+
+                string sqls = sql1 + sb.ToString();
+
+                try
+                {
+                    db.BeginTran();
+                    int n = db.Ado.ExecuteCommand(sqls);
+                    db.CommitTran();
+                    b = n > 0;
+                }
+                catch (Exception e)
+                {
+                    db.RollbackTran();
+                    CommonLogger.WriteLog(
+                        ELogCategory.Error,
+                        string.Format("PermissionService.ResetUserRole Sql Trans Exception: {0}", e.Message),
+                        e
+                    );
+                }
+            }
+
+            return b;
+        }
     }
 
     internal class MenuCompare : IEqualityComparer<MenuEntity>
