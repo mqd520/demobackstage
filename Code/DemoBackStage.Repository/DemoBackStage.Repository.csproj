@@ -54,6 +54,7 @@
     <Compile Include="RoleRepository.cs" />
     <Compile Include="UserInfoRepository.cs" />
     <Compile Include="UserLoginLogRepository.cs" />
+    <Compile Include="UserOperateLogRepository.cs" />
     <Compile Include="UserRoleRepository.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -46,6 +46,7 @@
     <Compile Include="IRoleRepository.cs" />
     <Compile Include="IUserInfoRepository.cs" />
     <Compile Include="IUserLoginLogRepository.cs" />
+    <Compile Include="IUserOperateLogRepository.cs" />
     <Compile Include="IUserRoleRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

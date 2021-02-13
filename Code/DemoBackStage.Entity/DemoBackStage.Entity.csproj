@@ -50,6 +50,7 @@
     <Compile Include="RoleMenuEntity.cs" />
     <Compile Include="UserInfoEntity.cs" />
     <Compile Include="UserLoginLogEntity.cs" />
+    <Compile Include="UserOperateLogEntity.cs" />
     <Compile Include="UserRoleEntity.cs" />
   </ItemGroup>
   <ItemGroup>
